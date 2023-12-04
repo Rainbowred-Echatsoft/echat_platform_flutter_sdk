@@ -29,9 +29,10 @@ samples, guidance on mobile development, and a full API reference.
 2. 统一风格方便查找
 3. 可以通过git commit的message来自动生成changelog
 
-<type>(<scope>): <subject>
+type(scope): subject
 
 type:
+
 feat - 新功能 feature
 fix - 修复 bug
 docs - 文档注释
@@ -48,10 +49,10 @@ subject: 简述
 
 例如：
 
-`feat(iOS): 新增用户登录功能实现`
-`feat(Android): 更新原生依赖库版本`
-`test(roam): 漫游API测试`
-`chore(flutter): 更新Flutter依赖库版本`
+- `feat(iOS): 新增用户登录功能实现`
+- `feat(Android): 更新原生依赖库版本`
+- `test(roam): 漫游API测试`
+- `chore(flutter): 更新Flutter依赖库版本`
 
 
 ### 2. 分支规范
