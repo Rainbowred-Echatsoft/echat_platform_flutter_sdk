@@ -22,29 +22,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    initPlatformState();
-  }
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    // We also handle the message potentially returning null.
-    try {
-      platformVersion =
-          await _echatPlatformFlutterSdkPlugin.getPlatformVersion() ?? 'Unknown platform version';
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+    setDefualtSDKConfig();
+    initSDK();
   }
 
   @override
@@ -55,9 +34,29 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
-        ),
+            child: Column(
+          children: [
+            ElevatedButton(onPressed: () {}, child: const Text("点击打开聊天控制器")),
+          ],
+        )),
       ),
     );
+  }
+
+  /// 设置默认sdk参数
+  void setDefualtSDKConfig() {
+    //设置配置
+    EchatFlutterSdk.setConfig(
+        appId: 'SDKATFXTZXR2EMI7UKU',
+        appSecret: "XQDHSZJCKHD8TNOC2FASM7E8PDKHFNNGOOQ4KCY4Q6U",
+        serverAppId: "506CF39AE722D7634432E5C438ED8CBA",
+        serverEncodingKey: "MzFjM2ZjYjBmOGJiNGQ5Y2IxMDQ0ZTAzZmExYjJhMWE",
+        serverToken: "AQ3Nsg9U",
+        companyId: "521704");
+  }
+
+  /// SDK初始化
+  void initSDK() {
+    EchatFlutterSdk.initialize();
   }
 }
