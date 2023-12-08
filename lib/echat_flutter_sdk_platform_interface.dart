@@ -28,30 +28,31 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> setConfig({
+  Future<bool> setConfig({
     String? serverUrl,
     required String appId,
     required String appSecret,
     required String serverAppId,
     required String serverEncodingKey,
     required String serverToken,
-    required String companyId,
+    required int companyId,
+    required bool isAgreePrivacy,
   }) {
     throw UnimplementedError('sdkInit() has not been implemented.');
   }
 
-  Future<void> init() {
+  Future<bool> init() {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
   Future<void> openChat({
     required int companyId,
-    EchatVisEvtModel? visEvt,
     String? echatTag,
     String? myData,
     String? routeEntranceId,
     String? acdStaffId,
     String? acdType,
+    EchatVisEvtModel? visEvt,
     EchatFMModel? fm,
   }) {
     throw UnimplementedError('openChatController() has not been implemented.');

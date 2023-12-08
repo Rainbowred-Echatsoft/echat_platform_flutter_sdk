@@ -8,13 +8,14 @@ import 'echat_flutter_sdk_platform_interface.dart';
 //*******************插件主类**********/
 class EChatFlutterSdk {
   /// sdk设置
-  /// [serverUrl]: 服务器地址,不填写即为默认;形如:https://xxx.xxxx.com
+  /// [serverUrl]: 服务器地址,不填写即为默认;形如:https://e.echatsoft.com
   /// [appId]: app唯一ID
   /// [appSecret]: app密钥
   /// [serverAppId]: API接入ID
   /// [serverEncodingKey]: 消息加密key
   /// [serverToken]: API接入Token
   /// [companyId]: 公司Id, 如果是多商户接入则写入平台公司Id，如果是单商户接入则写入公司Id
+  /// [isAgreePrivacy]: 是否同意隐私协议
   static Future<void> setConfig({
     String? serverUrl,
     required String appId,
@@ -22,7 +23,8 @@ class EChatFlutterSdk {
     required String serverAppId,
     required String serverEncodingKey,
     required String serverToken,
-    required String companyId,
+    required int companyId,
+    required bool isAgreePrivacy,
   }) =>
       EChatFlutterSdkPlatform.instance.setConfig(
         serverUrl: serverUrl,
@@ -32,6 +34,7 @@ class EChatFlutterSdk {
         serverEncodingKey: serverEncodingKey,
         serverToken: serverToken,
         companyId: companyId,
+        isAgreePrivacy: isAgreePrivacy,
       );
 
   /// sdk初始化: 需要在setConfig之后调用

@@ -18,30 +18,34 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<void> setConfig(
+  Future<bool> setConfig(
       {required String appId,
       required String appSecret,
       required String serverAppId,
       required String serverEncodingKey,
       required String serverToken,
-      required String companyId,
+      required int companyId,
+      required bool isAgreePrivacy,
       String? serverUrl}) async {
     Map<String, dynamic> config = {
+      if (serverUrl != null) 'serverUrl': serverUrl,
       "appId": appId,
       "appSecret": appSecret,
       "serverAppId": serverAppId,
       "serverEncodingKey": serverEncodingKey,
       "serverToken": serverToken,
       "companyId": companyId,
-      "serverUrl": serverUrl
+      "isAgreePrivacy": isAgreePrivacy
     };
     config.removeWhere((key, value) => value == null);
-    await methodChannel.invokeMethod<void>('setConfig', config);
+    final result = await methodChannel.invokeMethod<bool>('setConfig', config);
+    return result ?? false;
   }
 
   @override
-  Future<void> init() async {
-    await methodChannel.invokeMethod<void>('init');
+  Future<bool> init() async {
+    final result = await methodChannel.invokeMethod<bool>('init');
+    return result ?? false;
   }
 
   @override

@@ -11,7 +11,7 @@ class MockEchatPlatformFlutterSdkPlatform
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
-  Future<void> init() {
+  Future<bool> init() {
     // TODO: implement setMember
     throw UnimplementedError();
   }
@@ -31,13 +31,14 @@ class MockEchatPlatformFlutterSdkPlatform
   }
 
   @override
-  Future<void> setConfig(
+  Future<bool> setConfig(
       {required String appId,
       required String appSecret,
       required String serverAppId,
       required String serverEncodingKey,
       required String serverToken,
-      required String companyId,
+      required int companyId,
+      required bool isAgreePrivacy,
       String? serverUrl}) {
     // TODO: implement setMember
     throw UnimplementedError();
