@@ -1,7 +1,9 @@
 package com.echatsoft.echatsdk.echat_platform_flutter_sdk
 
 import android.app.Activity
+import android.util.Log
 import androidx.annotation.NonNull
+import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.OnePaces
 import com.echatsoft.echatsdk.core.utils.GsonUtils
 import com.echatsoft.echatsdk.core.utils.LogUtils
@@ -16,6 +18,9 @@ import io.flutter.plugin.common.MethodChannel.Result
 
 /** EchatPlatformFlutterSdkPlugin */
 class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+    companion object {
+        const val TAG = "Flutter"
+    }
 
     private var mActivity: Activity? = null
 
@@ -57,37 +62,75 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     private fun setConfig(call: MethodCall, result: Result) {
         try {
             if (mActivity == null) {
+                Log.e(TAG, "setConfig application is null")
                 result.success(false)
                 return
             }
             LogUtils.iTag("Flutter", "SetConfig -> ${GsonUtils.toJson(call.arguments)}")
-            LogUtils.iTag("Flutter", "type -> ${call.arguments.javaClass}")
+
+            val serverUrl = call.argument<String>("serverUrl")
+            val appId = call.argument<String>("appId")
+            val appSecret = call.argument<String>("appSecret")
+            val serverAppId = call.argument<String>("serverAppId")
+            val serverEncodingKey = call.argument<String>("serverEncodingKey")
+            val serverToken = call.argument<String>("serverToken")
+            val companyId = call.argument<Int>("companyId")
+            val isAgreePrivacy = call.argument<Boolean>("isAgreePrivacy")
+            LogUtils.iTag(
+                "Flutter",
+                "serverUrl -> $serverUrl \n" +
+                        "appId -> $appId \n" +
+                        "appSecret -> $appSecret \n" +
+                        "serverAppId -> $serverAppId \n" +
+                        "serverEncodingKey -> $serverEncodingKey \n" +
+                        "serverToken -> $serverToken \n" +
+                        "companyId -> $companyId"
+            )
+
+            OnePaces.setConfig(
+                mActivity?.application,
+                serverUrl,
+                appId,
+                appSecret,
+                serverToken,
+                serverAppId,
+                serverEncodingKey,
+                companyId?.toLong() ?: -1,
+                isAgreePrivacy ?: false
+            )
             result.success(true)
         } catch (e: Exception) {
+            Log.e(TAG, "setConfig", e)
+            result.success(false)
         }
     }
 
     private fun initSDK(call: MethodCall, result: Result) {
         try {
             if (mActivity == null) {
+                Log.e(TAG, "initSDK application is null")
                 result.success(false)
                 return
             }
-            LogUtils.iTag("Flutter", "initSDK -> ${GsonUtils.toJson(call.arguments)}")
-            LogUtils.iTag("Flutter", "type -> ${call.arguments.javaClass}")
+            OnePaces.init(mActivity?.application)
             result.success(true)
         } catch (e: Exception) {
+            Log.e(TAG, "initSDK", e)
+            result.success(false)
         }
     }
 
     private fun openChat(call: MethodCall, result: Result) {
         try {
             if (mActivity == null) {
+                Log.e(TAG, "openChat application is null")
                 result.success(false)
                 return
             }
 
-            val visEvt = call.argument<Map<String, Any>>("evtModel");
+            EChatSDK.getInstance().openChat(mActivity!!, null, null)
+
+            val visEvt = call.argument<Map<String, Any>>("visEvt");
             LogUtils.iTag("Flutter", "openChat -> ${GsonUtils.toJson(call.arguments)}")
             LogUtils.iTag("Flutter", "visEvt -> ${GsonUtils.toJson(visEvt)}")
             LogUtils.iTag("Flutter", "visEvt -> ${visEvt?.javaClass}")
@@ -95,6 +138,8 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             LogUtils.iTag("Flutter", "type -> ${call.arguments.javaClass}")
             result.success(true)
         } catch (e: Exception) {
+            Log.e(TAG, "openChat", e)
+            result.success(false)
         }
     }
 
