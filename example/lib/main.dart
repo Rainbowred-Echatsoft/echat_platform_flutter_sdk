@@ -17,7 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-  final _echatPlatformFlutterSdkPlugin = EchatFlutterSdk();
+  final _echatPlatformFlutterSdkPlugin = EChatFlutterSdk();
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   /// 设置默认sdk参数
   void setDefaultSDKConfig() {
     //设置配置
-    EchatFlutterSdk.setConfig(
+    EChatFlutterSdk.setConfig(
       appId: 'SDKATFXTZXR2EMI7UKU',
       appSecret: "XQDHSZJCKHD8TNOC2FASM7E8PDKHFNNGOOQ4KCY4Q6U",
       serverAppId: "506CF39AE722D7634432E5C438ED8CBA",
@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
 
   /// SDK初始化
   void initSDK() {
-    EchatFlutterSdk.initialize();
+    EChatFlutterSdk.init();
   }
 
   void openChat() async {
@@ -80,7 +80,7 @@ class _MyAppState extends State<MyApp> {
       urlForStaff: "apiUrl(123,'hash')",
       memo: "评价（4000）",
     );
-    await EchatFlutterSdk.openChatController(
-        companyId: 521704, evtModel: visEvt);
+    await EChatFlutterSdk.openChat(
+        companyId: 521704, visEvt: visEvt);
   }
 }

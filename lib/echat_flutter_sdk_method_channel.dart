@@ -40,40 +40,40 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<void> initialize() async {
-    await methodChannel.invokeMethod<void>('initialize');
+  Future<void> init() async {
+    await methodChannel.invokeMethod<void>('init');
   }
 
   @override
-  Future<void> openChatController({
-    required String companyId,
-    EchatVisEvtModel? evtModel,
+  Future<void> openChat({
+    required int companyId,
+    EchatVisEvtModel? visEvt,
     String? echatTag,
     String? myData,
     String? routeEntranceId,
     String? acdStaffId,
     String? acdType,
-    EchatFMModel? fmModel,
+    EchatFMModel? fm,
   }) async {
-    await methodChannel.invokeListMethod('openChatController', {
+    await methodChannel.invokeMethod('openChat', {
       "companyId": companyId,
-      "evtModel": evtModel?.toMap(),
+      "evt": visEvt?.toMap(),
       "echatTag": echatTag,
       "myData": myData,
       "routeEntranceId": routeEntranceId,
       "acdStaffId": acdStaffId,
       "acdType": acdType,
-      "fmModel": fmModel?.toMap(),
+      "fm": fm?.toMap(),
     });
   }
 
   @override
-  Future<void> setMember(EchatUserInfo userInfo) {
+  Future<void> setUserInfo(EchatUserInfo userInfo) {
     return methodChannel.invokeMethod<void>('setMember', userInfo.toMap());
   }
 
   @override
-  Future<void> clearMember() {
+  Future<void> clearUserInfo() {
     return methodChannel.invokeMethod<void>('clearMember');
   }
 }

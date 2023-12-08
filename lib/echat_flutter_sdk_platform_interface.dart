@@ -28,39 +28,40 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('platformVersion() has not been implemented.');
   }
 
-  Future<void> setConfig(
-      {required String appId,
-      required String appSecret,
-      required String serverAppId,
-      required String serverEncodingKey,
-      required String serverToken,
-      required String companyId,
-      String? serverUrl}) {
+  Future<void> setConfig({
+    String? serverUrl,
+    required String appId,
+    required String appSecret,
+    required String serverAppId,
+    required String serverEncodingKey,
+    required String serverToken,
+    required String companyId,
+  }) {
     throw UnimplementedError('sdkInit() has not been implemented.');
   }
 
-  Future<void> initialize() {
+  Future<void> init() {
     throw UnimplementedError('initialize() has not been implemented.');
   }
 
-  Future<void> openChatController({
-    required String companyId,
-    EchatVisEvtModel? evtModel,
+  Future<void> openChat({
+    required int companyId,
+    EchatVisEvtModel? visEvt,
     String? echatTag,
     String? myData,
     String? routeEntranceId,
     String? acdStaffId,
     String? acdType,
-    EchatFMModel? fmModel,
+    EchatFMModel? fm,
   }) {
     throw UnimplementedError('openChatController() has not been implemented.');
   }
 
-  Future<void> setMember(EchatUserInfo userInfo) {
+  Future<void> setUserInfo(EchatUserInfo userInfo) {
     throw UnimplementedError('setMember() has not been implemented.');
   }
 
-  Future<void> clearMember() {
+  Future<void> clearUserInfo() {
     throw UnimplementedError('clearMember() has not been implemented.');
   }
 }

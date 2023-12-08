@@ -14,7 +14,7 @@
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
   } else if([@"setConfig" isEqualToString:call.method]){
       NSLog(@"echatSDK config = \n%@", call.arguments);
-  }else if ([@"initialize" isEqualToString:call.method]){
+  }else if ([@"init" isEqualToString:call.method]){
       
   }else{
       result(FlutterMethodNotImplemented);

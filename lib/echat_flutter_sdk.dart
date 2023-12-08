@@ -6,67 +6,74 @@ import 'echat_flutter_sdk_platform_interface.dart';
 
 /// TODO: 后面确定接口调整后补充注释
 //*******************插件主类**********/
-class EchatFlutterSdk {
+class EChatFlutterSdk {
   /// sdk设置
+  /// [serverUrl]: 服务器地址,不填写即为默认;形如:https://xxx.xxxx.com
   /// [appId]: app唯一ID
   /// [appSecret]: app密钥
   /// [serverAppId]: API接入ID
   /// [serverEncodingKey]: 消息加密key
   /// [serverToken]: API接入Token
   /// [companyId]: 公司Id, 如果是多商户接入则写入平台公司Id，如果是单商户接入则写入公司Id
-  /// [serverUrl]: 服务器地址,不填写即为默认;形如:https://xxx.xxxx.com
-  static Future<void> setConfig(
-          {required String appId,
-          required String appSecret,
-          required String serverAppId,
-          required String serverEncodingKey,
-          required String serverToken,
-          required String companyId,
-          String? serverUrl}) =>
+  static Future<void> setConfig({
+    String? serverUrl,
+    required String appId,
+    required String appSecret,
+    required String serverAppId,
+    required String serverEncodingKey,
+    required String serverToken,
+    required String companyId,
+  }) =>
       EChatFlutterSdkPlatform.instance.setConfig(
-          appId: appId,
-          appSecret: appSecret,
-          serverAppId: serverAppId,
-          serverEncodingKey: serverEncodingKey,
-          serverToken: serverToken,
-          companyId: companyId,
-          serverUrl: serverUrl);
+        serverUrl: serverUrl,
+        appId: appId,
+        appSecret: appSecret,
+        serverAppId: serverAppId,
+        serverEncodingKey: serverEncodingKey,
+        serverToken: serverToken,
+        companyId: companyId,
+      );
 
   /// sdk初始化: 需要在setConfig之后调用
-  static Future<void> initialize() {
-    return EChatFlutterSdkPlatform.instance.initialize();
+  static Future<void> init() {
+    return EChatFlutterSdkPlatform.instance.init();
   }
 
   /// 跳转咨询控制器
-  static Future<void> openChatController({
-    required String companyId,
-    EchatVisEvtModel? evtModel,
+  static Future<void> openChat({
+    required int companyId,
+    EchatVisEvtModel? visEvt,
     String? echatTag,
     String? myData,
     String? routeEntranceId,
     String? acdStaffId,
     String? acdType,
-    EchatFMModel? fmModel,
+    EchatFMModel? fm,
   }) {
-    return EChatFlutterSdkPlatform.instance.openChatController(
+    return EChatFlutterSdkPlatform.instance.openChat(
         companyId: companyId,
-        evtModel: evtModel,
+        visEvt: visEvt,
         echatTag: echatTag,
         myData: myData,
         routeEntranceId: routeEntranceId,
         acdStaffId: acdStaffId,
         acdType: acdType,
-        fmModel: fmModel);
+        fm: fm);
   }
 
   /// 设置会员
-  static Future<void> setMember(EchatUserInfo userInfo) {
-    return EChatFlutterSdkPlatform.instance.setMember(userInfo);
+  static Future<void> setUserInfo(EchatUserInfo userInfo) {
+    return EChatFlutterSdkPlatform.instance.setUserInfo(userInfo);
   }
 
   /// 会员信息清除
-  static Future<void> clearMember() {
-    return EChatFlutterSdkPlatform.instance.clearMember();
+  static Future<void> clearUserInfo() {
+    return EChatFlutterSdkPlatform.instance.clearUserInfo();
+  }
+
+  // 暂时保留
+  Future<String?> getPlatformVersion() {
+    return EChatFlutterSdkPlatform.instance.getPlatformVersion();
   }
 }
 
@@ -74,26 +81,27 @@ class EchatFlutterSdk {
 
 /// ***Echat图文对象类***
 class EchatVisEvtModel {
-  String imageUrl;
-  String? content;
-  String? title;
   String? eventId;
+  String? title;
+  String? content;
+  String? imageUrl;
   String? urlForVisitor;
   String? urlForStaff;
   String? memo;
-  int visibility;
-  int customizeMsgType;
+  int visibility = 1;
+  int customizeMsgType = 1;
 
-  EchatVisEvtModel(
-      {required this.imageUrl,
-      this.content,
-      this.title,
-      this.eventId,
-      this.urlForVisitor,
-      this.urlForStaff,
-      this.memo,
-      this.visibility = 1,
-      this.customizeMsgType = 2});
+  EchatVisEvtModel({
+    this.eventId,
+    this.title,
+    this.content,
+    this.imageUrl,
+    this.urlForVisitor,
+    this.urlForStaff,
+    this.memo,
+    this.visibility = 1,
+    this.customizeMsgType = 1,
+  });
 
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
@@ -221,8 +229,8 @@ class EchatUserInfo {
   String? category;
   String? name;
   String? nickname;
-  Uint8? gender;
-  Uint8? age;
+  int? gender;
+  int? age;
   String? birthday;
   String? maritalStatus;
   String? phone;
@@ -236,10 +244,10 @@ class EchatUserInfo {
   String? photo;
   String? memo;
 
-/**
- * 会员自定义字段
- * 最长不超过255位
- */
+  /**
+   * 会员自定义字段
+   * 最长不超过255位
+   */
   String? c1;
   String? c2;
   String? c3;
