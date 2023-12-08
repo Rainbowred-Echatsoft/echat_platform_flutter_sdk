@@ -10,6 +10,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('echat_platform_flutter_sdk');
 
+  /// msg信道, 用于未读消息传递
+  final EventChannel msgChannel = EventChannel('echat_msg_channel');
+
   @override
   Future<String?> getPlatformVersion() async {
     final version =
@@ -59,16 +62,18 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
     String? acdType,
     EchatFMModel? fm,
   }) async {
-    await methodChannel.invokeMethod('openChat', {
+    Map<String, dynamic> map = {
       "companyId": companyId,
-      "evt": visEvt?.toMap(),
+      "visEvt": visEvt?.toMap(),
       "echatTag": echatTag,
       "myData": myData,
       "routeEntranceId": routeEntranceId,
       "acdStaffId": acdStaffId,
       "acdType": acdType,
-      "fm": fm?.toMap(),
-    });
+      "fm": fm?.toMap()
+    };
+    map.removeWhere((key, value) => value == null);
+    await methodChannel.invokeMethod('openChat', map);
   }
 
   @override

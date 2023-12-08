@@ -16,9 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
-  final _echatPlatformFlutterSdkPlugin = EChatFlutterSdk();
-
   @override
   void initState() {
     super.initState();
@@ -42,6 +39,20 @@ class _MyAppState extends State<MyApp> {
               },
               child: const Text("点击打开聊天控制器"),
             ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                setMember();
+              },
+              child: const Text("设置会员接口"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                clearMember();
+              },
+              child: const Text("清理会员"),
+            ),
           ],
         )),
       ),
@@ -52,13 +63,12 @@ class _MyAppState extends State<MyApp> {
   void setDefaultSDKConfig() {
     //设置配置
     EChatFlutterSdk.setConfig(
-      appId: 'SDKATFXTZXR2EMI7UKU',
-      appSecret: "XQDHSZJCKHD8TNOC2FASM7E8PDKHFNNGOOQ4KCY4Q6U",
-      serverAppId: "506CF39AE722D7634432E5C438ED8CBA",
-      serverEncodingKey: "MzFjM2ZjYjBmOGJiNGQ5Y2IxMDQ0ZTAzZmExYjJhMWE",
-      serverToken: "AQ3Nsg9U",
-      companyId: "521704",
-      //serverUrl: "https://chat.rainbowred.com",
+      appId: 'SDKC3E2QGTQU7BCIYRD',
+      appSecret: "NQXPGFBHBQ4CV3KCAECQWVQWK8MKGQAQ5TJKFZNDAY5",
+      serverAppId: "8546F8346D6BB48840B763000231F1A1",
+      serverEncodingKey: "7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn",
+      serverToken: "2fr6R3jL",
+      companyId: "523055",
     );
   }
 
@@ -67,6 +77,7 @@ class _MyAppState extends State<MyApp> {
     EChatFlutterSdk.init();
   }
 
+  ///打开对话控制器
   void openChat() async {
     var visEvt = EchatVisEvtModel(
       eventId: "cook1002",
@@ -80,7 +91,17 @@ class _MyAppState extends State<MyApp> {
       urlForStaff: "apiUrl(123,'hash')",
       memo: "评价（4000）",
     );
-    await EChatFlutterSdk.openChat(
-        companyId: 521704, visEvt: visEvt);
+    await EChatFlutterSdk.openChat(companyId: 521704, visEvt: visEvt);
+  }
+
+  ///设置会员
+  void setMember() {
+    var userInfo = EchatUserInfo(uid: "123456789", name: "张三");
+    EChatFlutterSdk.setUserInfo(userInfo);
+  }
+
+  ///清理会员
+  void clearMember() {
+    EChatFlutterSdk.clearUserInfo();
   }
 }
