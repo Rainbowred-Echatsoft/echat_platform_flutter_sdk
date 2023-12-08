@@ -22,7 +22,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    setDefualtSDKConfig();
+    setDefaultSDKConfig();
     initSDK();
   }
 
@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   /// 设置默认sdk参数
-  void setDefualtSDKConfig() {
+  void setDefaultSDKConfig() {
     //设置配置
     EchatFlutterSdk.setConfig(
         appId: 'SDKATFXTZXR2EMI7UKU',
