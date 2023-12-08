@@ -60,7 +60,7 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('setMember() has not been implemented.');
   }
 
-  Future<void> clearMember(EchatUserInfo userInfo) {
+  Future<void> clearMember() {
     throw UnimplementedError('clearMember() has not been implemented.');
   }
 }
