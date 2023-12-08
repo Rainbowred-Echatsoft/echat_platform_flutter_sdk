@@ -13,6 +13,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "file:///Users/xuhaoyang/echat/repo/sdk" }
+        maven { url "https://maven.echatsoft.com/echat/app/sdk" }
+        maven { url "https://nexus.rainbowred.com/repository/sdk/" }
         google()
         mavenCentral()
     }
