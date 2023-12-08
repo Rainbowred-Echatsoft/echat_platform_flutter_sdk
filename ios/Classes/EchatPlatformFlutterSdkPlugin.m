@@ -46,18 +46,26 @@
         return;
     }
     
-    id companyIdValue = [value objectForKey:@"companyId"];
+    NSMutableDictionary * dictM = [NSMutableDictionary dictionaryWithDictionary:value];
+    
+    id companyIdValue = [dictM objectForKey:@"companyId"];
     if (![companyIdValue isKindOfClass:[NSString class]]){
         companyIdValue = [NSString stringWithFormat:@"%@",companyIdValue];
     }
     
-    NSString * appId = [[value objectForKey:@"appId"] stringByReplacingOccurrencesOfString:@" " withString:@""];;
-    NSString * appSecret = [[value objectForKey:@"appSecret"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * serverAppId = [[value objectForKey:@"serverAppId"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * serverEncodingKey = [[value objectForKey:@"serverEncodingKey"] stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSString * serverToken = [[value objectForKey:@"serverToken"] stringByReplacingOccurrencesOfString:@" " withString:@""];;
-    NSString * companyId = [[value objectForKey:@"companyId"] stringByReplacingOccurrencesOfString:@" " withString:@""];;
-    NSString * serverUrl = [[value objectForKey:@"serverUrl"]stringByReplacingOccurrencesOfString:@" " withString:@""];;
+    //特殊处理
+    if ([dictM objectForKey:@"isAgreePrivacy"]){
+        [dictM removeObjectForKey:@"isAgreePrivacy"];
+    }
+    
+    
+    NSString * appId = [[dictM objectForKey:@"appId"] stringByReplacingOccurrencesOfString:@" " withString:@""];;
+    NSString * appSecret = [[dictM objectForKey:@"appSecret"] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * serverAppId = [[dictM objectForKey:@"serverAppId"] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * serverEncodingKey = [[dictM objectForKey:@"serverEncodingKey"] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSString * serverToken = [[dictM objectForKey:@"serverToken"] stringByReplacingOccurrencesOfString:@" " withString:@""];;
+    NSString * companyId = [companyIdValue stringByReplacingOccurrencesOfString:@" " withString:@""];;
+    NSString * serverUrl = [[dictM objectForKey:@"serverUrl"]stringByReplacingOccurrencesOfString:@" " withString:@""];;
     
     
     self.appId = appId;
