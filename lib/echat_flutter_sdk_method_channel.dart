@@ -33,9 +33,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
       "serverEncodingKey": serverEncodingKey,
       "serverToken": serverToken,
       "companyId": companyId,
-      //iOS 字典中不能为空,如果直接用""字符串代替不严谨,转换成字典后底层将空变成了"<null>"
       "serverUrl": serverUrl
     };
+    config.removeWhere((key, value) => value == null);
     await methodChannel.invokeMethod<void>('setConfig', config);
   }
 
@@ -65,5 +65,15 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
       "acdType": acdType,
       "fmModel": fmModel?.toMap(),
     });
+  }
+
+  @override
+  Future<void> setMember(EchatUserInfo userInfo) {
+    return methodChannel.invokeMethod<void>('setMember', userInfo.toMap());
+  }
+
+  @override
+  Future<void> clearMember(EchatUserInfo userInfo) {
+    return methodChannel.invokeMethod<void>('clearMember', userInfo.toMap());
   }
 }

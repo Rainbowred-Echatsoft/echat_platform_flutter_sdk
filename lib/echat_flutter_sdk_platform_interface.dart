@@ -55,4 +55,12 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
   }) {
     throw UnimplementedError('openChatController() has not been implemented.');
   }
+
+  Future<void> setMember(EchatUserInfo userInfo) {
+    throw UnimplementedError('setMember() has not been implemented.');
+  }
+
+  Future<void> clearMember(EchatUserInfo userInfo) {
+    throw UnimplementedError('clearMember() has not been implemented.');
+  }
 }
