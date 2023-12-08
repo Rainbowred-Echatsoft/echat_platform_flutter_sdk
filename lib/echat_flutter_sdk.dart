@@ -29,7 +29,8 @@ class EchatFlutterSdk {
           serverAppId: serverAppId,
           serverEncodingKey: serverEncodingKey,
           serverToken: serverToken,
-          companyId: companyId);
+          companyId: companyId,
+          serverUrl: serverUrl);
 
   /// sdk初始化: 需要在setConfig之后调用
   static Future<void> initialize() {
