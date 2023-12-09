@@ -71,8 +71,8 @@ class _MyAppState extends State<MyApp> {
   /// 设置默认sdk参数
   void setDefaultSDKConfig() {
     ///正式环境 多商户
-    ///appId SDK4MGQQLAVCJF6UBA9
-    ///appSecret B3M7RWPMVR33GA7SDGAC2ZRAGQYUQYEJBCMKWDXP5XZ
+    ///appId SDKCV5XSSVPFGSK5N6U
+    ///appSecret CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE
     ///serverAppId 8546F8346D6BB48840B763000231F1A1
     ///serverEncodingkey 7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn
     ///serverToken 2fr6R3jL
@@ -87,8 +87,8 @@ class _MyAppState extends State<MyApp> {
     ///serverToken AQ3Nsg9U
     ///platformId 521704
     EChatFlutterSdk.setConfig(
-      appId: 'SDKC3E2QGTQU7BCIYRD',
-      appSecret: "NQXPGFBHBQ4CV3KCAECQWVQWK8MKGQAQ5TJKFZNDAY5",
+      appId: 'SDKCV5XSSVPFGSK5N6U',
+      appSecret: "CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE",
       serverAppId: "8546F8346D6BB48840B763000231F1A1",
       serverEncodingKey: "7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn",
       serverToken: "2fr6R3jL",
