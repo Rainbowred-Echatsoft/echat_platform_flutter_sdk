@@ -11,7 +11,7 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   final methodChannel = const MethodChannel('echat_platform_flutter_sdk');
 
   /// msg信道, 用于未读消息传递
-  final EventChannel msgChannel = const EventChannel('echat_msg_channel');
+  final EventChannel msgChannel = const EventChannel('echat_unread_message_channel');
 
   @override
   Future<String?> getPlatformVersion() async {
