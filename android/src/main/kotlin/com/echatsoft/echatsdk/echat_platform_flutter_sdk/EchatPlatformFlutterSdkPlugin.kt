@@ -2,9 +2,11 @@ package com.echatsoft.echatsdk.echat_platform_flutter_sdk
 
 import android.app.Activity
 import android.util.Log
-import androidx.annotation.NonNull
 import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.OnePaces
+import com.echatsoft.echatsdk.core.model.ChatParamConfig
+import com.echatsoft.echatsdk.core.model.ExtraParamConfig
+import com.echatsoft.echatsdk.core.model.VisEvt
 import com.echatsoft.echatsdk.core.utils.GsonUtils
 import com.echatsoft.echatsdk.core.utils.LogUtils
 
@@ -128,14 +130,74 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                 return
             }
 
-            EChatSDK.getInstance().openChat(mActivity!!, null, null)
+            val params = call.arguments<Map<String, Any>>() ?: emptyMap()
 
-            val visEvt = call.argument<Map<String, Any>>("visEvt");
+            val companyId = params["companyId"] as? Int
+            val echatTag = params["echatTag"] as? String
+            val myData = params["myData"] as? String
+            val routeEntranceId = params["routeEntranceId"] as? String
+            val acdType = params["acdType"] as? String
+            val acdStaffId = params["acdStaffId"] as? String
+            val visEvtMap = params["visEvt"] as? Map<*, *>
+            val fmMap = params["fm"] as? Map<String, Any>
+
+
             LogUtils.iTag("Flutter", "openChat -> ${GsonUtils.toJson(call.arguments)}")
-            LogUtils.iTag("Flutter", "visEvt -> ${GsonUtils.toJson(visEvt)}")
-            LogUtils.iTag("Flutter", "visEvt -> ${visEvt?.javaClass}")
-
+            LogUtils.iTag("Flutter", "visEvt -> ${GsonUtils.toJson(visEvtMap)}")
+            LogUtils.iTag("Flutter", "visEvt type -> ${visEvtMap?.javaClass}")
+            LogUtils.iTag("Flutter", "fm -> ${GsonUtils.toJson(fmMap)}")
             LogUtils.iTag("Flutter", "type -> ${call.arguments.javaClass}")
+
+            val paramConfig = ChatParamConfig()
+            val extraParamConfig = ExtraParamConfig()
+
+            paramConfig.echatTag = echatTag
+            paramConfig.myData = myData
+
+            //判断routeEntranceId是不是数字
+            if (!routeEntranceId.isNullOrEmpty() && routeEntranceId.matches(Regex("[0-9]+"))) {
+                paramConfig.routeEntranceId = routeEntranceId.toInt()
+            }
+
+            paramConfig.routeEntranceId
+            extraParamConfig.acdType = acdType
+            extraParamConfig.acdStaffId = acdStaffId
+
+            if (visEvtMap != null) {
+                val visEvt = VisEvt()
+                visEvt.eventId = visEvtMap["eventId"] as? String
+                visEvt.title = visEvtMap["title"] as? String
+                visEvt.content = visEvtMap["content"] as? String
+                visEvt.imageUrl = visEvtMap["imageUrl"] as? String
+                visEvt.urlForStaff = visEvtMap["urlForStaff"] as? String
+                visEvt.urlForVisitor = visEvtMap["urlForVisitor"] as? String
+                visEvt.memo = visEvtMap["memo"] as? String
+                visEvt.visibility = visEvtMap["visibility"] as? Int ?: 1
+                visEvt.customizeMsgType = visEvtMap["customizeMsgType"] as? Int ?: 1
+                paramConfig.visEvt = visEvt
+            }
+
+            if (fmMap != null) {
+                //fmMap 类型 Map 转成 HashMap
+                val newHashMap = HashMap<String, String>()
+                fmMap.forEach {
+                    try {
+                        newHashMap[it.key] = it.value as String
+                    } catch (e: Exception) {
+                    }
+                }
+                extraParamConfig.fm = newHashMap
+            }
+
+            if (companyId != null) {
+                EChatSDK.getInstance()
+                    .openChat(mActivity!!, companyId.toLong(), paramConfig, extraParamConfig)
+            } else {
+                EChatSDK.getInstance()
+                    .openChat(mActivity!!, paramConfig, extraParamConfig)
+            }
+
+
             result.success(true)
         } catch (e: Exception) {
             Log.e(TAG, "openChat", e)

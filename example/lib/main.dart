@@ -109,9 +109,11 @@ class _MyAppState extends State<MyApp> {
       memo: "评价（4000）",
     );
     await EChatFlutterSdk.openChat(
-      companyId: 521704,
-      visEvt: visEvt,
-    );
+        companyId: 523055,
+        visEvt: visEvt,
+        echatTag: "flutter",
+        myData: "flutter-myData",
+        fm: EchatFMModel.createTextMessage(content: "这是Fm功能"));
   }
 
   ///设置会员
