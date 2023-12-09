@@ -77,6 +77,15 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
+  Future<void> openBox({String? echatTag}) async {
+    Map<String, dynamic> map = {
+      "echatTag": echatTag,
+    };
+    map.removeWhere((key, value) => value == null);
+    await methodChannel.invokeMethod('openBox', map);
+  }
+
+  @override
   Future<void> setUserInfo(EchatUserInfo userInfo) {
     return methodChannel.invokeMethod<void>('setMember', userInfo.toMap());
   }

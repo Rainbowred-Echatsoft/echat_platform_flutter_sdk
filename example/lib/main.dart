@@ -31,30 +31,39 @@ class _MyAppState extends State<MyApp> {
           title: const Text('EChat FlutterSDK example app'),
         ),
         body: Center(
-            child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                openChat();
-              },
-              child: const Text("点击打开聊天控制器"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setUserInfo();
-              },
-              child: const Text("设置会员接口"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                clearUserInfo();
-              },
-              child: const Text("清理会员"),
-            ),
-          ],
-        )),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  openChat();
+                },
+                child: const Text("打开聊天窗口 - 全功能"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  openBox();
+                },
+                child: const Text("打开消息盒子 - echatTag: flutter"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  setUserInfo();
+                },
+                child: const Text("设置会员接口"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  clearUserInfo();
+                },
+                child: const Text("清理会员"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -114,6 +123,11 @@ class _MyAppState extends State<MyApp> {
         echatTag: "flutter",
         myData: "flutter-myData",
         fm: EchatFMModel.createTextMessage(content: "这是Fm功能"));
+  }
+
+  //打开消息盒子
+  void openBox() async {
+    await EChatFlutterSdk.openBox(echatTag: "flutter");
   }
 
   ///设置会员

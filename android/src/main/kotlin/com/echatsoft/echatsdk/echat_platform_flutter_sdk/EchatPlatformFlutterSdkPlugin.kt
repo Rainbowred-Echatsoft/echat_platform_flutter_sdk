@@ -1,6 +1,7 @@
 package com.echatsoft.echatsdk.echat_platform_flutter_sdk
 
 import android.app.Activity
+import android.os.Bundle
 import android.util.Log
 import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.OnePaces
@@ -38,6 +39,7 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
+        Log.i(TAG, "onMethodCall current thread -> ${Thread.currentThread()}")
         when (call.method) {
             "getPlatformVersion" -> {
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
@@ -53,6 +55,10 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
 
             "openChat", "openChatController" -> {
                 openChat(call, result)
+            }
+
+            "openBox" -> {
+                openBox(call, result)
             }
 
             else -> {
@@ -201,6 +207,24 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             result.success(true)
         } catch (e: Exception) {
             Log.e(TAG, "openChat", e)
+            result.success(false)
+        }
+    }
+
+    private fun openBox(call: MethodCall, result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "openBox application is null")
+                result.success(false)
+                return
+            }
+            val echatTag = call.argument<String>("echatTag")
+            EChatSDK.getInstance().openBox(mActivity!!, Bundle().apply {
+                putString("echatTag", echatTag)
+            })
+            result.success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, "openBox", e)
             result.success(false)
         }
     }

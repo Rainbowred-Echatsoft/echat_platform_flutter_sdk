@@ -55,6 +55,12 @@ class MockEchatPlatformFlutterSdkPlatform
     // TODO: implement setMember
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> openBox({String? echatTag}) {
+    // TODO: implement openBox
+    throw UnimplementedError();
+  }
 }
 
 void main() {

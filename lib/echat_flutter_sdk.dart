@@ -64,6 +64,15 @@ class EChatFlutterSdk {
         fm: fm);
   }
 
+  /// 打开消息盒子
+  static Future<void> openBox({
+    String? echatTag,
+  }) {
+    return EChatFlutterSdkPlatform.instance.openBox(
+      echatTag: echatTag,
+    );
+  }
+
   /// 设置会员
   static Future<void> setUserInfo(EchatUserInfo userInfo) {
     return EChatFlutterSdkPlatform.instance.setUserInfo(userInfo);
