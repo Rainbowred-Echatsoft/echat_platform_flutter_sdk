@@ -31,30 +31,39 @@ class _MyAppState extends State<MyApp> {
           title: const Text('EChat FlutterSDK example app'),
         ),
         body: Center(
-            child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                openChat();
-              },
-              child: const Text("点击打开聊天控制器"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                setUserInfo();
-              },
-              child: const Text("设置会员接口"),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                clearUserInfo();
-              },
-              child: const Text("清理会员"),
-            ),
-          ],
-        )),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  openChat();
+                },
+                child: const Text("打开聊天窗口 - 全功能"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  openBox();
+                },
+                child: const Text("打开消息盒子 - echatTag: flutter"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  setUserInfo();
+                },
+                child: const Text("设置会员接口"),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(
+                onPressed: () {
+                  clearUserInfo();
+                },
+                child: const Text("清理会员"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -62,8 +71,8 @@ class _MyAppState extends State<MyApp> {
   /// 设置默认sdk参数
   void setDefaultSDKConfig() {
     ///正式环境 多商户
-    ///appId SDK4MGQQLAVCJF6UBA9
-    ///appSecret B3M7RWPMVR33GA7SDGAC2ZRAGQYUQYEJBCMKWDXP5XZ
+    ///appId SDKCV5XSSVPFGSK5N6U
+    ///appSecret CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE
     ///serverAppId 8546F8346D6BB48840B763000231F1A1
     ///serverEncodingkey 7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn
     ///serverToken 2fr6R3jL
@@ -78,8 +87,8 @@ class _MyAppState extends State<MyApp> {
     ///serverToken AQ3Nsg9U
     ///platformId 521704
     EChatFlutterSdk.setConfig(
-      appId: 'SDKC3E2QGTQU7BCIYRD',
-      appSecret: "NQXPGFBHBQ4CV3KCAECQWVQWK8MKGQAQ5TJKFZNDAY5",
+      appId: 'SDKCV5XSSVPFGSK5N6U',
+      appSecret: "CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE",
       serverAppId: "8546F8346D6BB48840B763000231F1A1",
       serverEncodingKey: "7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn",
       serverToken: "2fr6R3jL",
@@ -109,9 +118,16 @@ class _MyAppState extends State<MyApp> {
       memo: "评价（4000）",
     );
     await EChatFlutterSdk.openChat(
-      companyId: 521704,
-      visEvt: visEvt,
-    );
+        companyId: 523055,
+        visEvt: visEvt,
+        echatTag: "flutter",
+        myData: "flutter-myData",
+        fm: EchatFMModel.createTextMessage(content: "这是Fm功能"));
+  }
+
+  //打开消息盒子
+  void openBox() async {
+    await EChatFlutterSdk.openBox(echatTag: "flutter");
   }
 
   ///设置会员

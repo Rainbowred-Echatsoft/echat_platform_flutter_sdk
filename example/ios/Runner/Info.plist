@@ -28,6 +28,22 @@
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>app需要您的同意，才能访问媒体资源库</string>
+    <key>NSCameraUsageDescription</key>
+    <string>app需要您的同意,才能访问相机</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>app需要您的同意,才能访问位置</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>app需要您的同意,才能访问位置</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>app需要您的同意,才能访问位置</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>app需要您的同意，才能访问麦克风</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>app需要您的同意，才能保存图片到本地</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>app需要您的同意,才能访问相册</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
