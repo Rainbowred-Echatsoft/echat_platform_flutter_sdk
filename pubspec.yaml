@@ -1,7 +1,8 @@
 name: echat_platform_flutter_sdk
 description: A new EChat Platform Flutter SDK.
 version: 0.0.1
-homepage:
+homepage: https://www.echatsoft.com
+repository: https://github.com/Rainbowred-Echatsoft/echat_platform_flutter_sdk
 
 environment:
   sdk: '>=2.12.0 <4.0.0'
