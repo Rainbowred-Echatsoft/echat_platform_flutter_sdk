@@ -1,7 +1,5 @@
 // ignore_for_file: slash_for_doc_comments
 
-import 'dart:ffi';
-
 import 'echat_flutter_sdk_platform_interface.dart';
 
 /// TODO: 后面确定接口调整后补充注释
