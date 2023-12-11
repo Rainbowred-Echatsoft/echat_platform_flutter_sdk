@@ -87,11 +87,11 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
 
   @override
   Future<void> setUserInfo(EchatUserInfo userInfo) {
-    return methodChannel.invokeMethod<void>('setMember', userInfo.toMap());
+    return methodChannel.invokeMethod<void>('setUserInfo', userInfo.toMap());
   }
 
   @override
   Future<void> clearUserInfo() {
-    return methodChannel.invokeMethod<void>('clearMember');
+    return methodChannel.invokeMethod<void>('clearUserInfo');
   }
 }
