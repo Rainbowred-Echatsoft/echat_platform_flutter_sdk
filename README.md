@@ -13,4 +13,4 @@ TODO
 
 ## 集成文档
 
-完整文档请参考：[Flutter 插件集成文档])(https://wiki.echatsoft.com/sdk/flutter-platform/#/)
+完整文档请参考：[Flutter 插件集成文档](https://wiki.echatsoft.com/sdk/flutter-platform/#/)
