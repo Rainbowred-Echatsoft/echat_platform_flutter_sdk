@@ -21,25 +21,28 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
- if([@"setConfig" isEqualToString:call.method]){
-      NSLog(@"echatSDK config = \n%@", call.arguments);
-     [self setConfig:call.arguments];
-  }else if ([@"init" isEqualToString:call.method]){
-      [self initSDK];
-  }else if ([@"openChat" isEqualToString:call.method]){
-      [self openChat:call.arguments];
-  }else if ([@"setMember" isEqualToString:call.method]){
-      [self setUserInfo:call.arguments];
-  }else if ([@"clearMember" isEqualToString:call.method]){
-      [self clearMember];
-  }
-  else{
-      result(FlutterMethodNotImplemented);
-  }
+    if([@"setConfig" isEqualToString:call.method]){
+        NSLog(@"echatSDK config = \n%@", call.arguments);
+        [self setConfig:call.arguments];
+    }else if ([@"init" isEqualToString:call.method]){
+        [self initSDK];
+    }else if ([@"openChat" isEqualToString:call.method]){
+        [self openChat:call.arguments];
+    }else if ([@"setMember" isEqualToString:call.method]){
+        [self setUserInfo:call.arguments];
+    }else if ([@"clearMember" isEqualToString:call.method]){
+        [self clearMember];
+    }else if ([@"openBox" isEqualToString:call.method]){
+        [self openBox];
+    }else{
+        result(FlutterMethodNotImplemented);
+    }
 }
 
 
 #pragma mark -- private methods
+
+//SDK设置
 -(void)setConfig:(id)value{
     if (![value isKindOfClass:[NSDictionary class]]){
         NSLog(@"setConfig value's type error");
@@ -77,6 +80,7 @@
     self.serverUrl = serverUrl;
 }
 
+//初始化SDK
 - (void)initSDK{
     [EchatSDK startSDKWithAppID:self.appId
                       AppSecret:self.appSecret
@@ -87,6 +91,7 @@
                       serverUrl:self.serverUrl];
 }
 
+//打开对话
 -(void)openChat:(id)value{
     if(![value isKindOfClass:[NSDictionary class]]){
         return;
@@ -106,19 +111,13 @@
     [condition setValuesForKeysWithDictionary:dictM];
     
     EchatChatController * chatVC = [EchatChatController chatWithCondition:condition];
-        
-    // 获取当前的 FlutterViewController
-    UIViewController *flutterViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    
-    // 推送原生控制器
-    if (flutterViewController.navigationController){
-        [flutterViewController.navigationController pushViewController:chatVC animated:YES];
-        
-    }else{
-        UINavigationController * navi = [[UINavigationController alloc] initWithRootViewController:chatVC];
-        navi.modalPresentationStyle = UIModalPresentationFullScreen;
-        [flutterViewController presentViewController:navi animated:YES completion:nil];
-    }
+    [self toPush:chatVC];
+
+}
+
+- (void)openBox{
+    EchatMessageBoxController * box = [[EchatMessageBoxController alloc] init];
+    [self toPush:box];
 }
 
 - (void)setUserInfo:(id)value{
@@ -135,5 +134,22 @@
 
 - (void)clearMember{
     [EchatSDK clearUserInfo];
+}
+
+
+#pragma mark -others
+- (void)toPush:(UIViewController *)controller{
+    // 获取当前的 FlutterViewController
+    UIViewController *flutterViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    
+    // 推送原生控制器
+    if (flutterViewController.navigationController){
+        [flutterViewController.navigationController pushViewController:controller animated:YES];
+        
+    }else{
+        UINavigationController * navi = [[UINavigationController alloc] initWithRootViewController:controller];
+        navi.modalPresentationStyle = UIModalPresentationFullScreen;
+        [flutterViewController presentViewController:navi animated:YES completion:nil];
+    }
 }
 @end
