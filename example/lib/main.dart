@@ -2,90 +2,107 @@ import 'package:echat_platform_flutter_sdk/echat_flutter_sdk.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 void main() {
-  runApp(const MyApp());
+  runApp(const App());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: HomePage(),
+    );
+  }
 }
 
-class _MyAppState extends State<MyApp> {
-  final _echatPlatformFlutterSdkPlugin = EChatFlutterSdk();
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<bool> _isAgreePrivacy;
 
   @override
   void initState() {
     super.initState();
-    setDefaultSDKConfig();
-    initSDK();
+    // 一洽SDK初始化
+    _initEChatSDK();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('EChat FlutterSDK example app'),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  openChat();
-                },
-                child: const Text("打开聊天窗口 - 全功能"),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  openBox();
-                },
-                child: const Text("打开消息盒子 - echatTag: flutter"),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  setUserInfo();
-                },
-                child: const Text("设置会员接口"),
-              ),
-              const SizedBox(height: 8),
-              ElevatedButton(
-                onPressed: () {
-                  clearUserInfo();
-                },
-                child: const Text("清理会员"),
-              ),
-            ],
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('EChat FlutterSDK example app'),
+      ),
+      body: Center(
+        child: FutureBuilder<bool>(
+            future: _isAgreePrivacy,
+            builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+              if (snapshot.hasData && snapshot.data!) {
+                return _sdkFuncMenus();
+              } else {
+                return const Text("未同意隐私协议");
+              }
+            }),
       ),
     );
   }
 
-  /// 设置默认sdk参数
-  void setDefaultSDKConfig() {
-    ///正式环境 多商户
-    ///appId SDKCV5XSSVPFGSK5N6U
-    ///appSecret CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE
-    ///serverAppId 8546F8346D6BB48840B763000231F1A1
-    ///serverEncodingkey 7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn
-    ///serverToken 2fr6R3jL
-    ///platformId 523055
-    //设置配置
+  Widget _sdkFuncMenus() {
+    return Column(
+      children: [
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            openChat();
+          },
+          child: const Text("打开聊天窗口 - 全功能"),
+        ),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            openBox();
+          },
+          child: const Text("打开消息盒子 - echatTag: flutter"),
+        ),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            setUserInfo();
+          },
+          child: const Text("设置会员接口"),
+        ),
+        const SizedBox(height: 8),
+        ElevatedButton(
+          onPressed: () {
+            clearUserInfo();
+          },
+          child: const Text("清理会员"),
+        ),
+      ],
+    );
+  }
 
-    ///测试环境 多商户
-    ///appId SDKATFXTZXR2EMI7UKU
-    ///appSecret XQDHSZJCKHD8TNOC2FASM7E8PDKHFNNGOOQ4KCY4Q6U
-    ///serverAppId 506CF39AE722D7634432E5C438ED8CBA
-    ///serverEncodingkey MzFjM2ZjYjBmOGJiNGQ5Y2IxMDQ0ZTAzZmExYjJhMWE
-    ///serverToken AQ3Nsg9U
-    ///platformId 521704
+  /// SDK初始化
+  void _initEChatSDK() async {
+    // 获得隐私协议是否同意数据
+    _isAgreePrivacy = _prefs.then((SharedPreferences prefs) {
+      return prefs.getBool("isAgreePrivacy") ?? false;
+    });
+
+    // 是否同意隐私协议 不影响设置参数
+    // 不会影响合规性
+    // 设置默认sdk参数
+    final isAgreePrivacy = await _isAgreePrivacy;
     EChatFlutterSdk.setConfig(
       appId: 'SDKCV5XSSVPFGSK5N6U',
       appSecret: "CTBMXIKRDRYTFQVRZQ3ZJAPIMN2QVK62D53MBGCXBJE",
@@ -93,14 +110,60 @@ class _MyAppState extends State<MyApp> {
       serverEncodingKey: "7k263sdcmyvEY3OZjAsZ4RONB4zaZgOZEgEKntEbYNn",
       serverToken: "2fr6R3jL",
       companyId: 523055,
-      isAgreePrivacy: true,
-      // serverUrl: "https://chat.rainbowred.com",
+      isAgreePrivacy: isAgreePrivacy,
     );
+
+    if (isAgreePrivacy) {
+      // 已经同意隐私协议
+      EChatFlutterSdk.init();
+    }
+    else {
+      // 未同意隐私协议
+      // 弹出一个dialog窗口
+      // 提示用户同意隐私协议
+      // 用户点击同意后 调用EChatFlutterSdk.init();
+      _showPrivacyPolicyDialog();
+    }
   }
 
-  /// SDK初始化
-  void initSDK() {
-    EChatFlutterSdk.init();
+  /// 显示隐私协议弹窗
+  /// 用户点击同意后 调用EChatFlutterSdk.init();
+  /// 用户点击不同意后 关闭弹窗
+  void _showPrivacyPolicyDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("隐私协议"),
+          content: const Text(
+              "请您务必审慎阅读、充分理解“隐私协议”各条款，包括但不限于：为了向您提供即时通讯、内容分享等服务，我们需要收集您的设备信息、操作日志等个人信息。您可以在“设置”中查看、变更、删除个人信息并管理您的授权。您可阅读《隐私协议》了解详细信息。如您同意，请点击“同意”开始接受我们的服务。"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text("不同意"),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                // 同意隐私协议
+                final SharedPreferences prefs = await _prefs;
+                setState(() {
+                  _isAgreePrivacy = prefs
+                      .setBool("isAgreePrivacy", true)
+                      .then((bool success) {
+                    return success;
+                  });
+                });
+                EChatFlutterSdk.init();
+              },
+              child: const Text("同意"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   ///打开对话
