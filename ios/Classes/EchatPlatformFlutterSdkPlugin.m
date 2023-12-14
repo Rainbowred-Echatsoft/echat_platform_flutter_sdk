@@ -20,6 +20,9 @@ FlutterEventSink     eventCountSink;
             binaryMessenger:[registrar messenger]];
   EchatPlatformFlutterSdkPlugin* instance = [[EchatPlatformFlutterSdkPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
+    
+    FlutterEventChannel * eventChannel = [FlutterEventChannel eventChannelWithName:@"echat_message_channel" binaryMessenger:[registrar messenger]];
+    [eventChannel setStreamHandler:instance];
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
@@ -28,11 +31,13 @@ FlutterEventSink     eventCountSink;
         [self setConfig:call.arguments];
     }else if ([@"init" isEqualToString:call.method]){
         [self initSDK];
+//        [self openWS];
+        
     }else if ([@"openChat" isEqualToString:call.method]){
         [self openChat:call.arguments];
-    }else if ([@"setMember" isEqualToString:call.method]){
+    }else if ([@"setUserInfo" isEqualToString:call.method]){
         [self setUserInfo:call.arguments];
-    }else if ([@"clearMember" isEqualToString:call.method]){
+    }else if ([@"clearUserInfo" isEqualToString:call.method]){
         [self clearMember];
     }else if ([@"openBox" isEqualToString:call.method]){
         [self openBox];
@@ -181,6 +186,13 @@ FlutterEventSink     eventCountSink;
     }
 }
 
+- (void)openWS{
+    Class clazz = NSClassFromString(@"EchatWSManager");
+    SEL selector = NSSelectorFromString(@"open");
+    if ([clazz respondsToSelector:selector]){
+        [clazz performSelector:selector];
+    }
+}
 
 #pragma mark -others
 - (void)toPush:(UIViewController *)controller{

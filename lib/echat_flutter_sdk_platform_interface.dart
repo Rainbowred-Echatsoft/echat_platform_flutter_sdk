@@ -74,12 +74,12 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('clearMember() has not been implemented.');
   }
 
-  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack,
-      void Function(Object error)? errorCallBack) {
+  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
     throw UnimplementedError('getUnreadMsg() has not been implemented.');
   }
 
-  Future<int> getStaticMsgCount() {
-    throw UnimplementedError('getStaticMsgCount() has not been implemented.');
+  Future<void> getUnreadMsgCount(
+      void Function(dynamic count) msgCountCallBack) {
+    throw UnimplementedError('getUnreadMsgCount() has not been implemented.');
   }
 }

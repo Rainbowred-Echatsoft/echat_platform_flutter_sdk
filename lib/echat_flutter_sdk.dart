@@ -81,11 +81,6 @@ class EChatFlutterSdk {
     return EChatFlutterSdkPlatform.instance.clearUserInfo();
   }
 
-  /// 未读消息
-  static Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
-    return EChatFlutterSdkPlatform.instance.getUnreadMsg(msgCallBack);
-  }
-
   /// 获取消息总数
   static Future<void> getUnreadMsgCount(
       void Function(dynamic count) msgCountCallBack) {
@@ -109,6 +104,7 @@ class EchatVisEvtModel {
   String? urlForVisitor;
   String? urlForStaff;
   String? memo;
+  int dedup = 1;
   int visibility = 1;
   int customizeMsgType = 1;
 
@@ -120,6 +116,7 @@ class EchatVisEvtModel {
     this.urlForVisitor,
     this.urlForStaff,
     this.memo,
+    this.dedup = 1,
     this.visibility = 1,
     this.customizeMsgType = 1,
   });
@@ -133,6 +130,7 @@ class EchatVisEvtModel {
       'urlForVisitor': urlForVisitor,
       'urlForStaff': urlForStaff,
       'memo': memo,
+      'dedup': dedup,
       'visibility': visibility,
       'customizeMsgType': customizeMsgType
     };

@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<bool> _isAgreePrivacy;
+  int _unreadCount = 0;
 
   @override
   void initState() {
@@ -89,6 +90,9 @@ class _HomePageState extends State<HomePage> {
           },
           child: const Text("清理会员"),
         ),
+        // 动态消息展示
+        const SizedBox(height: 8),
+        Text("未读消息条数: $_unreadCount"),
       ],
     );
   }
@@ -207,15 +211,13 @@ class _HomePageState extends State<HomePage> {
 
   /// 测试未读和未读消息数
   void test() {
-    print("开始测试未读消息");
-    EChatFlutterSdk.getUnreadMsg((msg) {
-      String content = msg;
-      print("未读消息数：${content}");
-    });
-
     EChatFlutterSdk.getUnreadMsgCount((count) {
       String countString = count;
       print("未读消息数目: ${countString}");
+      int sumCount = int.parse(countString);
+      setState(() {
+        _unreadCount = sumCount;
+      });
     });
   }
 }
