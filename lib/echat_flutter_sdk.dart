@@ -242,7 +242,7 @@ class EchatUserInfo {
   int? gender;
   int? age;
   String? birthday;
-  String? maritalStatus;
+  int? maritalStatus;
   String? phone;
   String? qq;
   String? wechat;
