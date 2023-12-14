@@ -1,7 +1,7 @@
 #import "EchatPlatformFlutterSdkPlugin.h"
 #import "EchatPlatformSDK.h"
 
-@interface EchatPlatformFlutterSdkPlugin()
+@interface EchatPlatformFlutterSdkPlugin()<EchatConversationDelegate, FlutterStreamHandler>
 @property(nonatomic, copy) NSString * appId;
 @property(nonatomic, copy) NSString * appSecret;
 @property(nonatomic, copy) NSString * serverAppId;
@@ -11,6 +11,8 @@
 @property(nonatomic, copy) NSString * serverUrl;
 @end
 
+FlutterEventSink     eventMsgSink;
+FlutterEventSink     eventCountSink;
 @implementation EchatPlatformFlutterSdkPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
   FlutterMethodChannel* channel = [FlutterMethodChannel
@@ -134,6 +136,49 @@
 
 - (void)clearMember{
     [EchatSDK clearUserInfo];
+}
+
+#pragma mark -evenChannelDelegate
+- (FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)events{
+    if (![arguments isKindOfClass:[NSString class]]){
+        return nil;
+    }
+    
+    if ([arguments isEqualToString:@"EchatUnreadMsg"]){
+        [EchatConversationManager manager].delegate = self;
+        eventMsgSink = events;
+    }else if ([arguments isEqualToString:@"EchatUnreadCount"]){
+        [EchatConversationManager manager].delegate = self;
+        eventCountSink = events;
+        if (eventCountSink){
+            NSInteger count = [EchatConversationManager manager].getAllUnreadCountSum;
+            eventCountSink([NSString stringWithFormat:@"%ld",(long)count]);
+        }
+    }
+    
+    
+    return nil;
+}
+
+- (FlutterError *)onCancelWithArguments:(id)arguments{
+    
+    eventMsgSink = nil;
+    eventCountSink = nil;
+    return nil;
+}
+
+
+#pragma mark - sdkDelegate
+- (void)getReceivedMessage:(Echat_MsgModel *)message{
+    if (eventMsgSink){
+        eventMsgSink(message.content);
+    }
+}
+
+- (void)unReadMessagesSumCountChanged:(NSInteger)count{
+    if (eventCountSink){
+        eventCountSink([NSString stringWithFormat:@"%ld",count]);
+    }
 }
 
 

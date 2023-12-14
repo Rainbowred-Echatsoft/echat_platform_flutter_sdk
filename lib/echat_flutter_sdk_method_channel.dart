@@ -95,4 +95,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   Future<void> clearUserInfo() {
     return methodChannel.invokeMethod<void>('clearUserInfo');
   }
+
+  @override
+  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) async {
+    msgChannel.receiveBroadcastStream('EchatMsg').listen(msgCallBack);
+  }
 }

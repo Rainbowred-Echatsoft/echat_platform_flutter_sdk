@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+
     // 一洽SDK初始化
     _initEChatSDK();
   }
@@ -116,14 +117,14 @@ class _HomePageState extends State<HomePage> {
     if (isAgreePrivacy) {
       // 已经同意隐私协议
       EChatFlutterSdk.init();
-    }
-    else {
+    } else {
       // 未同意隐私协议
       // 弹出一个dialog窗口
       // 提示用户同意隐私协议
       // 用户点击同意后 调用EChatFlutterSdk.init();
       _showPrivacyPolicyDialog();
     }
+    test();
   }
 
   /// 显示隐私协议弹窗
@@ -202,5 +203,19 @@ class _HomePageState extends State<HomePage> {
   ///清理会员
   void clearUserInfo() async {
     await EChatFlutterSdk.clearUserInfo();
+  }
+
+  /// 测试未读和未读消息数
+  void test() {
+    print("开始测试未读消息");
+    EChatFlutterSdk.getUnreadMsg((msg) {
+      String content = msg;
+      print("未读消息数：${content}");
+    });
+
+    EChatFlutterSdk.getUnreadMsgCount((count) {
+      String countString = count;
+      print("未读消息数目: ${countString}");
+    });
   }
 }

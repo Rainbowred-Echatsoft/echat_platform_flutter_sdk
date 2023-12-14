@@ -81,6 +81,17 @@ class EChatFlutterSdk {
     return EChatFlutterSdkPlatform.instance.clearUserInfo();
   }
 
+  /// 未读消息
+  static Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
+    return EChatFlutterSdkPlatform.instance.getUnreadMsg(msgCallBack);
+  }
+
+  /// 获取消息总数
+  static Future<void> getUnreadMsgCount(
+      void Function(dynamic count) msgCountCallBack) {
+    return EChatFlutterSdkPlatform.instance.getUnreadMsgCount(msgCountCallBack);
+  }
+
   // 暂时保留
   Future<String?> getPlatformVersion() {
     return EChatFlutterSdkPlatform.instance.getPlatformVersion();
