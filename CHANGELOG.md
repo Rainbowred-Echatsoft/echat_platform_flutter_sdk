@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Android SDK版本升级到1.3.2.0-flutter6
+
 ## 0.0.2
 
 * Android SDK版本升级到1.3.2.0-flutter5
