@@ -2,7 +2,6 @@
 
 import 'echat_flutter_sdk_platform_interface.dart';
 
-/// TODO: 后面确定接口调整后补充注释
 //*******************插件主类**********/
 class EChatFlutterSdk {
   /// sdk设置
@@ -76,6 +75,11 @@ class EChatFlutterSdk {
     return EChatFlutterSdkPlatform.instance.setUserInfo(userInfo);
   }
 
+  /// 会员信息获取
+  static Future<Map<String, dynamic>?> getUserInfo() {
+    return EChatFlutterSdkPlatform.instance.getUserInfo();
+  }
+
   /// 会员信息清除
   static Future<void> clearUserInfo() {
     return EChatFlutterSdkPlatform.instance.clearUserInfo();
@@ -85,6 +89,21 @@ class EChatFlutterSdk {
   static Future<void> getUnreadMsgCount(
       void Function(dynamic count) msgCountCallBack) {
     return EChatFlutterSdkPlatform.instance.getUnreadMsgCount(msgCountCallBack);
+  }
+
+  /// 获取未读消息
+  static Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
+    return EChatFlutterSdkPlatform.instance.getUnreadMsg(msgCallBack);
+  }
+
+  /// 关闭链接
+  static Future<void> closeLink() {
+    return EChatFlutterSdkPlatform.instance.closeLink();
+  }
+
+  /// 关闭所有对话
+  static Future<bool> closeAllChat() async {
+    return await EChatFlutterSdkPlatform.instance.closeAllChat();
   }
 
   // 暂时保留

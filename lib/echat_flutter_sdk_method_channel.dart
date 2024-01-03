@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -12,6 +14,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
 
   /// msg信道, 用于未读消息传递
   final EventChannel msgChannel = const EventChannel('echat_message_channel');
+
+  /// count信道, 用于未读消息数传递
+  final EventChannel countChannel = const EventChannel('echat_count_channel');
 
   @override
   Future<String?> getPlatformVersion() async {
@@ -91,6 +96,14 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>?> getUserInfo() async {
+    final result = await methodChannel.invokeMethod('getUserInfo');
+    print("result 类型 ${result.runtimeType}");
+
+    return result;
+  }
+
+  @override
   Future<void> clearUserInfo() {
     return methodChannel.invokeMethod<void>('clearUserInfo');
   }
@@ -103,8 +116,18 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   @override
   Future<void> getUnreadMsgCount(
       void Function(dynamic count) msgCountCallBack) async {
-    msgChannel
+    countChannel
         .receiveBroadcastStream('EchatUnreadCount')
         .listen(msgCountCallBack);
+  }
+
+  @override
+  Future<void> closeLink() async {
+    await methodChannel.invokeMethod('closeLink');
+  }
+
+  @override
+  Future<bool> closeAllChat() async {
+    return await methodChannel.invokeMethod('closeAllChat');
   }
 }
