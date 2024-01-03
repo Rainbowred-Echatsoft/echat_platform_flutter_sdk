@@ -12,9 +12,6 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   @visibleForTesting
   final methodChannel = const MethodChannel('echat_platform_flutter_sdk');
 
-  /// msg信道, 用于未读消息传递
-  final EventChannel msgChannel = const EventChannel('echat_message_channel');
-
   /// count信道, 用于未读消息数传递
   final EventChannel countChannel = const EventChannel('echat_count_channel');
 
@@ -106,11 +103,6 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   @override
   Future<void> clearUserInfo() {
     return methodChannel.invokeMethod<void>('clearUserInfo');
-  }
-
-  @override
-  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) async {
-    msgChannel.receiveBroadcastStream('EchatUnreadMsg').listen(msgCallBack);
   }
 
   @override

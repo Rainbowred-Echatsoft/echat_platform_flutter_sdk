@@ -24,8 +24,8 @@ FlutterEventSink     eventCountSink;
     EchatPlatformFlutterSdkPlugin* instance = [[EchatPlatformFlutterSdkPlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
     
-    FlutterEventChannel * unreadMsgChannel = [FlutterEventChannel eventChannelWithName:@"echat_message_channel" binaryMessenger:[registrar messenger]];
-    [unreadMsgChannel setStreamHandler:instance];
+//    FlutterEventChannel * unreadMsgChannel = [FlutterEventChannel eventChannelWithName:@"echat_message_channel" binaryMessenger:[registrar messenger]];
+//    [unreadMsgChannel setStreamHandler:instance];
     
     FlutterEventChannel * unreadCountChannel = [FlutterEventChannel eventChannelWithName:@"echat_count_channel" binaryMessenger:[registrar messenger]];
     [unreadCountChannel setStreamHandler:instance];
@@ -36,6 +36,7 @@ FlutterEventSink     eventCountSink;
         [self setConfig:call.arguments];
     }else if ([@"init" isEqualToString:call.method]){
         [self initSDK];
+        [self openWS];
     }else if ([@"openChat" isEqualToString:call.method]){
         [self openChat:call.arguments];
     }else if ([@"setUserInfo" isEqualToString:call.method]){

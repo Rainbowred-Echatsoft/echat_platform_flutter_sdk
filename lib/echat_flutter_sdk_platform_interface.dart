@@ -79,10 +79,6 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('clearUserInfo() has not been implemented.');
   }
 
-  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
-    throw UnimplementedError('getUnreadMsg() has not been implemented.');
-  }
-
   Future<void> getUnreadMsgCount(
       void Function(dynamic count) msgCountCallBack) {
     throw UnimplementedError('getUnreadMsgCount() has not been implemented.');

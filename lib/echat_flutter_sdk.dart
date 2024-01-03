@@ -91,11 +91,6 @@ class EChatFlutterSdk {
     return EChatFlutterSdkPlatform.instance.getUnreadMsgCount(msgCountCallBack);
   }
 
-  /// 获取未读消息
-  static Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
-    return EChatFlutterSdkPlatform.instance.getUnreadMsg(msgCallBack);
-  }
-
   /// 关闭链接
   static Future<void> closeLink() {
     return EChatFlutterSdkPlatform.instance.closeLink();
