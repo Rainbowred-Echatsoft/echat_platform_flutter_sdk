@@ -36,7 +36,6 @@ FlutterEventSink     eventCountSink;
         [self setConfig:call.arguments];
     }else if ([@"init" isEqualToString:call.method]){
         [self initSDK];
-        [self openWS];
     }else if ([@"openChat" isEqualToString:call.method]){
         [self openChat:call.arguments];
     }else if ([@"setUserInfo" isEqualToString:call.method]){
@@ -210,14 +209,6 @@ FlutterEventSink     eventCountSink;
 - (void)unReadMessagesSumCountChanged:(NSInteger)count{
     if (eventCountSink){
         eventCountSink([NSString stringWithFormat:@"%ld",count]);
-    }
-}
-
-- (void)openWS{
-    Class clazz = NSClassFromString(@"EchatWSManager");
-    SEL selector = NSSelectorFromString(@"open");
-    if ([clazz respondsToSelector:selector]){
-        [clazz performSelector:selector];
     }
 }
 
