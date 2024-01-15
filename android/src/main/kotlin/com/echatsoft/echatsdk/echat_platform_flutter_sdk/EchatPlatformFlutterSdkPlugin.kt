@@ -7,6 +7,7 @@ import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.OnePaces
 import com.echatsoft.echatsdk.core.model.ChatParamConfig
 import com.echatsoft.echatsdk.core.model.ExtraParamConfig
+import com.echatsoft.echatsdk.core.model.UserInfo
 import com.echatsoft.echatsdk.core.model.VisEvt
 import com.echatsoft.echatsdk.core.utils.GsonUtils
 import com.echatsoft.echatsdk.core.utils.LogUtils
@@ -64,11 +65,16 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                 openBox(call, result)
             }
 
+            "setUserInfo" -> {
+                setUserInfo(call, result)
+            }
+
             else -> {
                 result.notImplemented()
             }
         }
     }
+
 
     private fun setDebug(call: MethodCall, result: Result) {
         try {
@@ -247,6 +253,68 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             result.success(false)
         }
     }
+
+    private fun setUserInfo(call: MethodCall, result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "setUserInfo application is null")
+                result.success(false)
+                return
+            }
+
+            val params = call.arguments<Map<String, Any>>() ?: emptyMap()
+            // params和UserInfo数据一致，从params中取值
+            val userInfo = UserInfo().apply {
+                uid = params["uid"] as? String
+                vip = params["vip"] as? Int ?: 0
+                grade = params["grade"] as? String
+                category = params["category"] as? String
+                name = params["name"] as? String
+                nickName = params["nickName"] as? String
+                gender = params["gender"] as? Int
+                age = params["age"] as? Int
+                birthday = params["birthday"] as? String
+                maritalStatus = params["maritalStatus"] as? Int
+                phone = params["phone"] as? String
+                qq = params["qq"] as? String
+                wechat = params["wechat"] as? String
+                email = params["email"] as? String
+                nation = params["nation"] as? String
+                province = params["province"] as? String
+                city = params["city"] as? String
+                address = params["address"] as? String
+                photo = params["photo"] as? String
+                memo = params["memo"] as? String
+                c1 = params["c1"] as? String
+                c2 = params["c2"] as? String
+                c3 = params["c3"] as? String
+                c4 = params["c4"] as? String
+                c5 = params["c5"] as? String
+                c6 = params["c6"] as? String
+                c7 = params["c7"] as? String
+                c8 = params["c8"] as? String
+                c9 = params["c9"] as? String
+                c10 = params["c10"] as? String
+                c11 = params["c11"] as? String
+                c12 = params["c12"] as? String
+                c13 = params["c13"] as? String
+                c14 = params["c14"] as? String
+                c15 = params["c15"] as? String
+                c16 = params["c16"] as? String
+                c17 = params["c17"] as? String
+                c18 = params["c18"] as? String
+                c19 = params["c19"] as? String
+                c20 = params["c20"] as? String
+            }
+            EChatSDK.getInstance().userInfo = userInfo
+            result.success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, "setUserInfo", e)
+            result.success(false)
+        }
+    }
+
+
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
