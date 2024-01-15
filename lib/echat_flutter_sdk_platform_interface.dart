@@ -74,11 +74,11 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('setUserInfo() has not been implemented.');
   }
 
-  Future<Map<String, dynamic>?> getUserInfo() {
+  Future<EchatUserInfo?> getUserInfo() {
     throw UnimplementedError('getUserInfo() has not been implemented.');
   }
 
-  Future<void> clearUserInfo() {
+  Future<bool> clearUserInfo() {
     throw UnimplementedError('clearUserInfo() has not been implemented.');
   }
 

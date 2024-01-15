@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -91,16 +89,15 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>?> getUserInfo() async {
+  Future<EchatUserInfo?> getUserInfo() async {
     final result = await methodChannel.invokeMethod('getUserInfo');
-    print("result 类型 ${result.runtimeType}");
-
-    return result;
+    print("result 类型 ${result.runtimeType} $result");
+    return EchatUserInfo.toModel(data: Map.from(result));
   }
 
   @override
-  Future<void> clearUserInfo() {
-    return methodChannel.invokeMethod<void>('clearUserInfo');
+  Future<bool> clearUserInfo() async {
+    return await methodChannel.invokeMethod('clearUserInfo');
   }
 
   @override

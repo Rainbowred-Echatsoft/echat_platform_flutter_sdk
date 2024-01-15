@@ -3,6 +3,7 @@ package com.echatsoft.echatsdk.echat_platform_flutter_sdk
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
+import androidx.collection.ArrayMap
 import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.OnePaces
 import com.echatsoft.echatsdk.core.model.ChatParamConfig
@@ -19,6 +20,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import java.lang.reflect.Modifier
 
 /** EchatPlatformFlutterSdkPlugin */
 class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
@@ -67,6 +69,14 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
 
             "setUserInfo" -> {
                 setUserInfo(call, result)
+            }
+
+            "getUserInfo" -> {
+                getUserInfo(call, result)
+            }
+
+            "clearUserInfo" -> {
+                clearUserInfo(call, result)
             }
 
             else -> {
@@ -314,7 +324,41 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
         }
     }
 
+    private fun getUserInfo(call: MethodCall, result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "setUserInfo application is null")
+                result.success(null)
+                return
+            }
+            val userInfo = EChatSDK.getInstance().userInfo
+            if (userInfo == null) {
+                result.success(null)
+                return
+            }
+            // 将userInfo对象的每个值取出来，放到map中
+            result.success(objectToMap(userInfo))
+        } catch (e: Exception) {
+            Log.e(TAG, "setUserInfo", e)
+            result.success(null)
+        }
+    }
 
+    private fun clearUserInfo(call: MethodCall, result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "clearUserInfo application is null")
+                result.success(false)
+                return
+            }
+
+            EChatSDK.getInstance().clearUserInfo()
+            result.success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, "clearUserInfo", e)
+            result.success(false)
+        }
+    }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
@@ -334,5 +378,20 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
 
     override fun onDetachedFromActivity() {
         mActivity == null
+    }
+
+    private fun objectToMap(any: Any): Map<String, Any> {
+        val membersMap = ArrayMap<String, Any>()
+        val fields = any::class.java.declaredFields
+        for (field in fields) {
+            if (field.modifiers and Modifier.PRIVATE != 0 && field.modifiers and Modifier.STATIC == 0) {
+                field.isAccessible = true
+                val fieldValue = field.get(any)
+                if (fieldValue != null) {
+                    membersMap[field.name] = fieldValue
+                }
+            }
+        }
+        return membersMap
     }
 }

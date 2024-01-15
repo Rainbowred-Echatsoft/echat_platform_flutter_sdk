@@ -49,7 +49,7 @@ class MockEchatPlatformFlutterSdkPlatform
   }
 
   @override
-  Future<void> clearUserInfo() {
+  Future<bool> clearUserInfo() {
     // TODO: implement clearMember
     throw UnimplementedError();
   }
@@ -92,7 +92,7 @@ class MockEchatPlatformFlutterSdkPlatform
   }
 
   @override
-  Future<Map<String, dynamic>?> getUserInfo() {
+  Future<EchatUserInfo?> getUserInfo() {
     // TODO: implement getUserInfo
     throw UnimplementedError();
   }

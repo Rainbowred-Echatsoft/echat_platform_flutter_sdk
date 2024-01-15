@@ -228,7 +228,8 @@ class _HomePageState extends State<HomePage> {
   ///会员信息获得
   void getUserInfo() async {
     var userInfo = await EChatFlutterSdk.getUserInfo();
-    print('Type of $userInfo is ${userInfo.runtimeType}');
+    print('Type is ${userInfo.runtimeType}');
+    print('info -> ${userInfo?.toMap()}');
   }
 
   ///清理会员

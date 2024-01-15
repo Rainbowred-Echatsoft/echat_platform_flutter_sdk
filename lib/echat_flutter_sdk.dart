@@ -6,9 +6,7 @@ import 'echat_flutter_sdk_platform_interface.dart';
 class EChatFlutterSdk {
   /// SDK 调试日志
   /// [debug]: true: 开启debug模式; false: 关闭debug模式
-  static Future<void> setDebug({
-    required bool debug
-  }) {
+  static Future<void> setDebug({required bool debug}) {
     return EChatFlutterSdkPlatform.instance.setDebug(debug: debug);
   }
 
@@ -84,12 +82,12 @@ class EChatFlutterSdk {
   }
 
   /// 会员信息获取
-  static Future<Map<String, dynamic>?> getUserInfo() {
+  static Future<EchatUserInfo?> getUserInfo() {
     return EChatFlutterSdkPlatform.instance.getUserInfo();
   }
 
   /// 会员信息清除
-  static Future<void> clearUserInfo() {
+  static Future<bool> clearUserInfo() {
     return EChatFlutterSdkPlatform.instance.clearUserInfo();
   }
 
@@ -108,7 +106,6 @@ class EChatFlutterSdk {
   static Future<bool> closeAllChat() async {
     return await EChatFlutterSdkPlatform.instance.closeAllChat();
   }
-
 }
 
 //*******************一些关于Ehat使用相关类**********/
@@ -396,5 +393,57 @@ class EchatUserInfo {
 
     map.removeWhere((key, value) => value == null);
     return map;
+  }
+
+  static EchatUserInfo? toModel({required Map<String, Object>? data}) {
+    if (data == null) {
+      return null;
+    }
+    var userInfo = EchatUserInfo(uid: "");
+    var uid = data["uid"] as String?;
+    if (uid != null) {
+      userInfo.uid = uid;
+    }
+    userInfo.vip = data["vip"] as int ?? 1;
+    userInfo.grade = data["grade"] as String?;
+    userInfo.category = data["category"] as String?;
+    userInfo.name = data["name"] as String?;
+    userInfo.nickName = data["nickName"] as String?;
+    userInfo.gender = data["gender"] as int?;
+    userInfo.age = data["age"] as int?;
+    userInfo.birthday = data["birthday"] as String?;
+    userInfo.maritalStatus = data["maritalStatus"] as int?;
+    userInfo.phone = data["phone"] as String?;
+    userInfo.qq = data["qq"] as String?;
+    userInfo.wechat = data["wechat"] as String?;
+    userInfo.email = data["email"] as String?;
+    userInfo.nation = data["nation"] as String?;
+    userInfo.province = data["province"] as String?;
+    userInfo.city = data["city"] as String?;
+    userInfo.address = data["address"] as String?;
+    userInfo.photo = data["photo"] as String?;
+    userInfo.memo = data["memo"] as String?;
+
+    userInfo.c1 = data["c1"] as String?;
+    userInfo.c2 = data["c2"] as String?;
+    userInfo.c3 = data["c3"] as String?;
+    userInfo.c4 = data["c4"] as String?;
+    userInfo.c5 = data["c5"] as String?;
+    userInfo.c6 = data["c6"] as String?;
+    userInfo.c8 = data["c8"] as String?;
+    userInfo.c9 = data["c9"] as String?;
+    userInfo.c10 = data["c10"] as String?;
+    userInfo.c11 = data["c11"] as String?;
+    userInfo.c12 = data["c12"] as String?;
+    userInfo.c13 = data["c13"] as String?;
+    userInfo.c14 = data["c14"] as String?;
+    userInfo.c15 = data["c15"] as String?;
+    userInfo.c16 = data["c16"] as String?;
+    userInfo.c17 = data["c17"] as String?;
+    userInfo.c18 = data["c18"] as String?;
+    userInfo.c19 = data["c19"] as String?;
+    userInfo.c20 = data["c20"] as String?;
+
+    return userInfo;
   }
 }
