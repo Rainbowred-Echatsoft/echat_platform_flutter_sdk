@@ -40,11 +40,11 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     required int companyId,
     required bool isAgreePrivacy,
   }) {
-    throw UnimplementedError('sdkInit() has not been implemented.');
+    throw UnimplementedError('setConfig() has not been implemented.');
   }
 
   Future<bool> init() {
-    throw UnimplementedError('initialize() has not been implemented.');
+    throw UnimplementedError('init() has not been implemented.');
   }
 
   Future<void> openChat({
@@ -57,7 +57,7 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     EchatVisEvtModel? visEvt,
     EchatFMModel? fm,
   }) {
-    throw UnimplementedError('openChatController() has not been implemented.');
+    throw UnimplementedError('openChat() has not been implemented.');
   }
 
   Future<void> openBox({
