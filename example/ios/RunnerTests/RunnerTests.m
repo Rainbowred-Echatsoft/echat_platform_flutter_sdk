@@ -17,17 +17,6 @@
 - (void)testExample {
   EchatPlatformFlutterSdkPlugin *plugin = [[EchatPlatformFlutterSdkPlugin alloc] init];
 
-  FlutterMethodCall *call = [FlutterMethodCall methodCallWithMethodName:@"getPlatformVersion"
-                                                              arguments:nil];
-  XCTestExpectation *expectation = [self expectationWithDescription:@"result block must be called"];
-  [plugin handleMethodCall:call
-                    result:^(id result) {
-                      NSString *expected = [NSString
-                          stringWithFormat:@"iOS %@", UIDevice.currentDevice.systemVersion];
-                      XCTAssertEqualObjects(result, expected);
-                      [expectation fulfill];
-                    }];
-  [self waitForExpectationsWithTimeout:1 handler:nil];
 }
 
 @end

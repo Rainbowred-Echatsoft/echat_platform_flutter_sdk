@@ -41,10 +41,6 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     override fun onMethodCall(call: MethodCall, result: Result) {
         Log.i(TAG, "onMethodCall current thread -> ${Thread.currentThread()}")
         when (call.method) {
-            "getPlatformVersion" -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
-            }
-
             "setConfig" -> {
                 setConfig(call, result)
             }

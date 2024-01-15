@@ -7,8 +7,6 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockEchatPlatformFlutterSdkPlatform
     with MockPlatformInterfaceMixin
     implements EChatFlutterSdkPlatform {
-  @override
-  Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
   Future<bool> init() {
@@ -102,12 +100,4 @@ void main() {
     expect(initialPlatform, isInstanceOf<MethodChannelEchatFlutterSdk>());
   });
 
-  test('getPlatformVersion', () async {
-    EChatFlutterSdk echatPlatformFlutterSdkPlugin = EChatFlutterSdk();
-    MockEchatPlatformFlutterSdkPlatform fakePlatform =
-        MockEchatPlatformFlutterSdkPlatform();
-    EChatFlutterSdkPlatform.instance = fakePlatform;
-
-    expect(await echatPlatformFlutterSdkPlugin.getPlatformVersion(), '42');
-  });
 }

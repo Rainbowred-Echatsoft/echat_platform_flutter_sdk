@@ -101,10 +101,6 @@ class EChatFlutterSdk {
     return await EChatFlutterSdkPlatform.instance.closeAllChat();
   }
 
-  // 暂时保留
-  Future<String?> getPlatformVersion() {
-    return EChatFlutterSdkPlatform.instance.getPlatformVersion();
-  }
 }
 
 //*******************一些关于Ehat使用相关类**********/

@@ -15,12 +15,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   /// count信道, 用于未读消息数传递
   final EventChannel countChannel = const EventChannel('echat_count_channel');
 
-  @override
-  Future<String?> getPlatformVersion() async {
-    final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
-  }
+
+
+
 
   @override
   Future<bool> setConfig(
