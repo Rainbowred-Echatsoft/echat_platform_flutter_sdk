@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'echat_flutter_sdk_method_channel.dart';
@@ -60,15 +63,32 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
 
   Future<void> openBox({
     String? echatTag,
-  }){
+  }) {
     throw UnimplementedError('openBox() has not been implemented.');
   }
 
   Future<void> setUserInfo(EchatUserInfo userInfo) {
-    throw UnimplementedError('setMember() has not been implemented.');
+    throw UnimplementedError('setUserInfo() has not been implemented.');
+  }
+
+  Future<Map<String, dynamic>?> getUserInfo() {
+    throw UnimplementedError('getUserInfo() has not been implemented.');
   }
 
   Future<void> clearUserInfo() {
-    throw UnimplementedError('clearMember() has not been implemented.');
+    throw UnimplementedError('clearUserInfo() has not been implemented.');
+  }
+
+  Future<void> getUnreadMsgCount(
+      void Function(dynamic count) msgCountCallBack) {
+    throw UnimplementedError('getUnreadMsgCount() has not been implemented.');
+  }
+
+  Future<void> closeLink() {
+    throw UnimplementedError('closeLink() has not been implemented.');
+  }
+
+  Future<bool> closeAllChat() {
+    throw UnimplementedError('closeChat() has not been implemented.');
   }
 }

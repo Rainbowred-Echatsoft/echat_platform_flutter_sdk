@@ -61,6 +61,37 @@ class MockEchatPlatformFlutterSdkPlatform
     // TODO: implement openBox
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> getUnreadMsg(void Function(dynamic msg) msgCallBack) {
+    // TODO: implement getUnreadMsg
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> getUnreadMsgCount(
+      void Function(dynamic count) msgCountCallBack) {
+    // TODO: implement getUnreadMsgCount
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> closeAllChat() {
+    // TODO: implement closeAllChat
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> closeLink() {
+    // TODO: implement closeLink
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getUserInfo() {
+    // TODO: implement getUserInfo
+    throw UnimplementedError();
+  }
 }
 
 void main() {

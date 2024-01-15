@@ -29,10 +29,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<bool> _isAgreePrivacy;
+  int _unreadCount = 0;
 
   @override
   void initState() {
     super.initState();
+
     // 一洽SDK初始化
     _initEChatSDK();
   }
@@ -88,6 +90,27 @@ class _HomePageState extends State<HomePage> {
           },
           child: const Text("清理会员"),
         ),
+        ElevatedButton(
+          onPressed: () {
+            getUserInfo();
+          },
+          child: const Text("获取会员信息"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            closeLink();
+          },
+          child: const Text("关闭链接"),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            closeAllChat();
+          },
+          child: const Text("关闭所有对话"),
+        ),
+        // 动态消息展示
+        const SizedBox(height: 8),
+        Text("未读消息条数: $_unreadCount"),
       ],
     );
   }
@@ -116,14 +139,14 @@ class _HomePageState extends State<HomePage> {
     if (isAgreePrivacy) {
       // 已经同意隐私协议
       EChatFlutterSdk.init();
-    }
-    else {
+    } else {
       // 未同意隐私协议
       // 弹出一个dialog窗口
       // 提示用户同意隐私协议
       // 用户点击同意后 调用EChatFlutterSdk.init();
       _showPrivacyPolicyDialog();
     }
+    test();
   }
 
   /// 显示隐私协议弹窗
@@ -199,8 +222,41 @@ class _HomePageState extends State<HomePage> {
     await EChatFlutterSdk.setUserInfo(userInfo);
   }
 
+  ///会员信息获得
+  void getUserInfo() async {
+    var userInfo = await EChatFlutterSdk.getUserInfo();
+    print('Type of $userInfo is ${userInfo.runtimeType}');
+  }
+
   ///清理会员
   void clearUserInfo() async {
+    // 模拟logout
+    //1.先关闭所有对话
+    closeAllChat();
+
+    //2.再清理会员信息
     await EChatFlutterSdk.clearUserInfo();
+  }
+
+  /// 测试未读和未读消息数
+  void test() {
+    EChatFlutterSdk.getUnreadMsgCount((count) {
+      String countString = count;
+      print("未读消息数目: ${countString}");
+      int sumCount = int.parse(countString);
+      setState(() {
+        _unreadCount = sumCount;
+      });
+    });
+  }
+
+  /// 关闭链接
+  void closeLink() {
+    EChatFlutterSdk.closeLink();
+  }
+
+  void closeAllChat() async {
+    bool success = await EChatFlutterSdk.closeAllChat();
+    print(success ? "关闭所有成功" : "关闭所有失败");
   }
 }

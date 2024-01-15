@@ -2,7 +2,6 @@
 
 import 'echat_flutter_sdk_platform_interface.dart';
 
-/// TODO: 后面确定接口调整后补充注释
 //*******************插件主类**********/
 class EChatFlutterSdk {
   /// sdk设置
@@ -76,9 +75,30 @@ class EChatFlutterSdk {
     return EChatFlutterSdkPlatform.instance.setUserInfo(userInfo);
   }
 
+  /// 会员信息获取
+  static Future<Map<String, dynamic>?> getUserInfo() {
+    return EChatFlutterSdkPlatform.instance.getUserInfo();
+  }
+
   /// 会员信息清除
   static Future<void> clearUserInfo() {
     return EChatFlutterSdkPlatform.instance.clearUserInfo();
+  }
+
+  /// 获取消息总数
+  static Future<void> getUnreadMsgCount(
+      void Function(dynamic count) msgCountCallBack) {
+    return EChatFlutterSdkPlatform.instance.getUnreadMsgCount(msgCountCallBack);
+  }
+
+  /// 关闭链接
+  static Future<void> closeLink() {
+    return EChatFlutterSdkPlatform.instance.closeLink();
+  }
+
+  /// 关闭所有对话
+  static Future<bool> closeAllChat() async {
+    return await EChatFlutterSdkPlatform.instance.closeAllChat();
   }
 
   // 暂时保留
@@ -98,6 +118,7 @@ class EchatVisEvtModel {
   String? urlForVisitor;
   String? urlForStaff;
   String? memo;
+  int dedup = 1;
   int visibility = 1;
   int customizeMsgType = 1;
 
@@ -109,6 +130,7 @@ class EchatVisEvtModel {
     this.urlForVisitor,
     this.urlForStaff,
     this.memo,
+    this.dedup = 1,
     this.visibility = 1,
     this.customizeMsgType = 1,
   });
@@ -122,6 +144,7 @@ class EchatVisEvtModel {
       'urlForVisitor': urlForVisitor,
       'urlForStaff': urlForStaff,
       'memo': memo,
+      'dedup': dedup,
       'visibility': visibility,
       'customizeMsgType': customizeMsgType
     };
