@@ -9,6 +9,12 @@ class MockEchatPlatformFlutterSdkPlatform
     implements EChatFlutterSdkPlatform {
 
   @override
+  Future<void> setDebug({required bool debug}) {
+    // TODO: implement setDebug
+    throw UnimplementedError();
+  }
+
+  @override
   Future<bool> init() {
     // TODO: implement setMember
     throw UnimplementedError();
@@ -90,6 +96,8 @@ class MockEchatPlatformFlutterSdkPlatform
     // TODO: implement getUserInfo
     throw UnimplementedError();
   }
+
+
 }
 
 void main() {

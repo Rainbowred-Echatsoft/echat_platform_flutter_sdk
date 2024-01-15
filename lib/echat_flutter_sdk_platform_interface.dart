@@ -28,8 +28,6 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
   }
 
 
-
-
   Future<bool> setConfig({
     String? serverUrl,
     required String appId,
@@ -41,6 +39,12 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     required bool isAgreePrivacy,
   }) {
     throw UnimplementedError('setConfig() has not been implemented.');
+  }
+
+  Future<void> setDebug({
+    required bool debug
+  }){
+    throw UnimplementedError('setDebug() has not been implemented.');
   }
 
   Future<bool> init() {

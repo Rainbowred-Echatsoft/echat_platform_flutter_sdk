@@ -15,10 +15,6 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   /// count信道, 用于未读消息数传递
   final EventChannel countChannel = const EventChannel('echat_count_channel');
 
-
-
-
-
   @override
   Future<bool> setConfig(
       {required String appId,
@@ -42,6 +38,11 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
     config.removeWhere((key, value) => value == null);
     final result = await methodChannel.invokeMethod<bool>('setConfig', config);
     return result ?? false;
+  }
+
+  @override
+  Future<void> setDebug({required bool debug}) async {
+    methodChannel.invokeMethod('setDebug', {"debug": debug});
   }
 
   @override

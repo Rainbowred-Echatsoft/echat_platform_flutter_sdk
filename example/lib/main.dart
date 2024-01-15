@@ -117,6 +117,9 @@ class _HomePageState extends State<HomePage> {
 
   /// SDK初始化
   void _initEChatSDK() async {
+    // 打印调试信息
+    EChatFlutterSdk.setDebug(debug: true);
+
     // 获得隐私协议是否同意数据
     _isAgreePrivacy = _prefs.then((SharedPreferences prefs) {
       return prefs.getBool("isAgreePrivacy") ?? false;

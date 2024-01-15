@@ -4,6 +4,14 @@ import 'echat_flutter_sdk_platform_interface.dart';
 
 //*******************插件主类**********/
 class EChatFlutterSdk {
+  /// SDK 调试日志
+  /// [debug]: true: 开启debug模式; false: 关闭debug模式
+  static Future<void> setDebug({
+    required bool debug
+  }) {
+    return EChatFlutterSdkPlatform.instance.setDebug(debug: debug);
+  }
+
   /// sdk设置
   /// [serverUrl]: 服务器地址,不填写即为默认;形如:https://e.echatsoft.com
   /// [appId]: app唯一ID

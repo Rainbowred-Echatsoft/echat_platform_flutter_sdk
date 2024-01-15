@@ -22,10 +22,11 @@ import io.flutter.plugin.common.MethodChannel.Result
 /** EchatPlatformFlutterSdkPlugin */
 class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     companion object {
-        const val TAG = "Flutter"
+        const val TAG = "EChat_Flutter"
     }
 
     private var mActivity: Activity? = null
+    private var debug: Boolean = false
 
     /// The MethodChannel that will the communication between Flutter and native Android
     ///
@@ -39,8 +40,14 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        Log.i(TAG, "onMethodCall current thread -> ${Thread.currentThread()}")
+        if (debug) {
+            Log.i(TAG, "onMethodCall current thread -> ${Thread.currentThread()}")
+        }
         when (call.method) {
+            "setDebug" -> {
+                setDebug(call, result)
+            }
+
             "setConfig" -> {
                 setConfig(call, result)
             }
@@ -63,6 +70,18 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
         }
     }
 
+    private fun setDebug(call: MethodCall, result: Result) {
+        try {
+            val argument = call.argument<Any>("debug")
+            Log.i(TAG, "obj type -> ${argument?.javaClass}")
+            debug = call.argument<Boolean>("debug") == true
+            OnePaces.setDebug(debug)
+        } catch (e: Exception) {
+            Log.e(TAG, "setDebug", e)
+        }
+        result.success(null)
+    }
+
     private fun setConfig(call: MethodCall, result: Result) {
         try {
             if (mActivity == null) {
@@ -70,8 +89,9 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                 result.success(false)
                 return
             }
-            LogUtils.iTag("Flutter", "SetConfig -> ${GsonUtils.toJson(call.arguments)}")
-
+            if (debug) {
+                LogUtils.iTag(TAG, "SetConfig -> ${GsonUtils.toJson(call.arguments)}")
+            }
             val serverUrl = call.argument<String>("serverUrl")
             val appId = call.argument<String>("appId")
             val appSecret = call.argument<String>("appSecret")
@@ -80,16 +100,19 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             val serverToken = call.argument<String>("serverToken")
             val companyId = call.argument<Int>("companyId")
             val isAgreePrivacy = call.argument<Boolean>("isAgreePrivacy")
-            LogUtils.iTag(
-                "Flutter",
-                "serverUrl -> $serverUrl \n" +
-                        "appId -> $appId \n" +
-                        "appSecret -> $appSecret \n" +
-                        "serverAppId -> $serverAppId \n" +
-                        "serverEncodingKey -> $serverEncodingKey \n" +
-                        "serverToken -> $serverToken \n" +
-                        "companyId -> $companyId"
-            )
+
+            if (debug) {
+                LogUtils.iTag(
+                    "Flutter",
+                    "serverUrl -> $serverUrl \n" +
+                            "appId -> $appId \n" +
+                            "appSecret -> $appSecret \n" +
+                            "serverAppId -> $serverAppId \n" +
+                            "serverEncodingKey -> $serverEncodingKey \n" +
+                            "serverToken -> $serverToken \n" +
+                            "companyId -> $companyId"
+                )
+            }
 
             OnePaces.setConfig(
                 mActivity?.application,
