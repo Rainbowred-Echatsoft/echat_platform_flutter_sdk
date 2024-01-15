@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:echat_platform_flutter_sdk/echat_flutter_sdk.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -221,7 +223,27 @@ class _HomePageState extends State<HomePage> {
 
   ///设置会员
   void setUserInfo() async {
-    var userInfo = EchatUserInfo(uid: "123456789", name: "张三");
+    var userInfo = EchatUserInfo(
+      uid: "flutter_demo_1",
+      name: "Flutter飞",
+      nickName: "Flutter🅱️",
+      gender: 2,
+      age: 30,
+      grade: "3",
+      category: "金牌会员",
+      birthday: "1990-01-01",
+        maritalStatus : 2,
+      phone: "13888888888",
+      wechat: "xubbb",
+      email: "xubbb3212@qq.com",
+      nation: "中国",
+      province: "广东",
+      city: "深圳市",
+      address: "广东省深圳市南山区粤海街道100号",
+      photo: "https://vfile.rainbowred.com/group1/M00/A9/69/wKhCBGMiglSAaHezAAARhGlFe90967.jpg",
+      memo: "高价值会员",
+      c1: "c1 - test"
+    );
     await EChatFlutterSdk.setUserInfo(userInfo);
   }
 
@@ -246,7 +268,7 @@ class _HomePageState extends State<HomePage> {
   void test() {
     EChatFlutterSdk.getUnreadMsgCount((count) {
       String countString = count;
-      print("未读消息数目: ${countString}");
+      print("未读消息数目: $countString");
       int sumCount = int.parse(countString);
       setState(() {
         _unreadCount = sumCount;
