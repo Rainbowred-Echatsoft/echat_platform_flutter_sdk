@@ -265,7 +265,7 @@ class EchatUserInfo {
   String? grade;
   String? category;
   String? name;
-  String? nickname;
+  String? nickName;
   int? gender;
   int? age;
   String? birthday;
@@ -312,7 +312,7 @@ class EchatUserInfo {
     this.grade,
     this.category,
     this.name,
-    this.nickname,
+    this.nickName,
     this.gender,
     this.age,
     this.birthday,
@@ -357,7 +357,7 @@ class EchatUserInfo {
       'grade': grade,
       'category': category,
       'name': name,
-      'nickname': nickname,
+      'nickName': nickName,
       'gender': gender,
       'age': age,
       'birthday': birthday,
