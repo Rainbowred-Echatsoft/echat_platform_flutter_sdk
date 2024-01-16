@@ -115,13 +115,10 @@ class _HomePageState extends State<HomePage> {
         const SizedBox(height: 8),
         Text("未读消息条数: $_unreadCount"),
         const SizedBox(height: 8),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          child: Expanded(
-            child: Container(
-              width: double.infinity,
-              child: Text("$_content"),
-            ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(_content),
           ),
         ),
       ],
