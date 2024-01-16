@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.collection.ArrayMap
 import com.echatsoft.echatsdk.core.EChatSDK
+import com.echatsoft.echatsdk.core.ICore
 import com.echatsoft.echatsdk.core.OnePaces
 import com.echatsoft.echatsdk.core.model.ChatParamConfig
 import com.echatsoft.echatsdk.core.model.ExtraParamConfig
@@ -78,6 +79,10 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             "clearUserInfo" -> {
                 clearUserInfo(call, result)
             }
+
+            "closeConnection" -> closeConnection(result)
+
+            "closeAllChat" -> closeAllChat(result)
 
             else -> {
                 result.notImplemented()
@@ -356,6 +361,27 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             result.success(true)
         } catch (e: Exception) {
             Log.e(TAG, "clearUserInfo", e)
+            result.success(false)
+        }
+    }
+
+    private fun closeConnection(result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "closeConnection application is null")
+                result.success(false)
+                return
+            }
+
+            EChatSDK.getInstance().closeConnection { flag, msg ->
+                if (flag) {
+                    result.success(true)
+                } else {
+                    result.error("closeConnection", msg, null)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "closeConnection", e)
             result.success(false)
         }
     }

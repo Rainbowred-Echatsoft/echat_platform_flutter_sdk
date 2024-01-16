@@ -98,7 +98,7 @@ class EChatFlutterSdk {
   }
 
   /// 关闭链接
-  static Future<void> closeConnection() {
+  static Future<bool> closeConnection() {
     return EChatFlutterSdkPlatform.instance.closeConnection();
   }
 

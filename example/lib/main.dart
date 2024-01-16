@@ -32,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late Future<bool> _isAgreePrivacy;
   int _unreadCount = 0;
+  String _content = "";
 
   @override
   void initState() {
@@ -113,6 +114,16 @@ class _HomePageState extends State<HomePage> {
         // 动态消息展示
         const SizedBox(height: 8),
         Text("未读消息条数: $_unreadCount"),
+        const SizedBox(height: 8),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Expanded(
+            child: Container(
+              width: double.infinity,
+              child: Text("$_content"),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -277,8 +288,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// 关闭链接
-  void closeConnection() {
-    EChatFlutterSdk.closeConnection();
+  void closeConnection() async {
+    final result = await EChatFlutterSdk.closeConnection();
+    print(result ? "关闭通信成功" : "关闭通信失败");
+    setState(() {
+      _content = result ? "关闭通信成功" : "关闭通信失败";
+    });
   }
 
   void closeAllChat() async {

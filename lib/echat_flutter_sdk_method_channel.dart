@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
@@ -110,8 +111,12 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<void> closeConnection() async {
-    await methodChannel.invokeMethod('closeConnection');
+  Future<bool> closeConnection() async {
+    var result = await methodChannel.invokeMethod('closeConnection');
+    if (Platform.isIOS) {
+      return true;
+    }
+    return result;
   }
 
   @override
