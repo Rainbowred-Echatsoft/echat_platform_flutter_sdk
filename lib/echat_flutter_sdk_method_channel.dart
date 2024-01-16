@@ -91,8 +91,9 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   @override
   Future<EchatUserInfo?> getUserInfo() async {
     final result = await methodChannel.invokeMethod('getUserInfo');
-    print("result 类型 ${result.runtimeType} $result");
-    return EchatUserInfo.toModel(data: Map.from(result));
+    return result == null
+        ? null
+        : EchatUserInfo.toModel(data: Map.from(result));
   }
 
   @override
