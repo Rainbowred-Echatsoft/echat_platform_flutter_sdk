@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
         ),
         ElevatedButton(
           onPressed: () {
-            closeLink();
+            closeConnection();
           },
           child: const Text("关闭链接"),
         ),
@@ -277,8 +277,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// 关闭链接
-  void closeLink() {
-    EChatFlutterSdk.closeLink();
+  void closeConnection() {
+    EChatFlutterSdk.closeConnection();
   }
 
   void closeAllChat() async {

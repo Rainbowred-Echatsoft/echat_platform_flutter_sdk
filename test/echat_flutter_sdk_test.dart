@@ -86,8 +86,8 @@ class MockEchatPlatformFlutterSdkPlatform
   }
 
   @override
-  Future<void> closeLink() {
-    // TODO: implement closeLink
+  Future<void> closeConnection() {
+    // TODO: implement closeConnection
     throw UnimplementedError();
   }
 

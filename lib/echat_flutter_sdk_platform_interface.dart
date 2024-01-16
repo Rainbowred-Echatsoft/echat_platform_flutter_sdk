@@ -87,8 +87,8 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('getUnreadMsgCount() has not been implemented.');
   }
 
-  Future<void> closeLink() {
-    throw UnimplementedError('closeLink() has not been implemented.');
+  Future<void> closeConnection() {
+    throw UnimplementedError('closeConnection() has not been implemented.');
   }
 
   Future<bool> closeAllChat() {

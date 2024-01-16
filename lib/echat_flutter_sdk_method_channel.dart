@@ -109,8 +109,8 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<void> closeLink() async {
-    await methodChannel.invokeMethod('closeLink');
+  Future<void> closeConnection() async {
+    await methodChannel.invokeMethod('closeConnection');
   }
 
   @override

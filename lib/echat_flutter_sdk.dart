@@ -98,8 +98,8 @@ class EChatFlutterSdk {
   }
 
   /// 关闭链接
-  static Future<void> closeLink() {
-    return EChatFlutterSdkPlatform.instance.closeLink();
+  static Future<void> closeConnection() {
+    return EChatFlutterSdkPlatform.instance.closeConnection();
   }
 
   /// 关闭所有对话

@@ -46,8 +46,8 @@ FlutterEventSink     eventCountSink;
         [self clearMember];
     }else if ([@"openBox" isEqualToString:call.method]){
         [self openBox];
-    }else if ([@"closeLink" isEqualToString:call.method]){
-        [self closeLink];
+    }else if ([@"closeConnection" isEqualToString:call.method]){
+        [self closeConnection];
     }else if ([@"closeAllChat" isEqualToString:call.method]){
         [self closeAllChat:result];
     }else{
@@ -157,7 +157,7 @@ FlutterEventSink     eventCountSink;
     [EchatSDK clearUserInfo];
 }
 
-- (void)closeLink{
+- (void)closeConnection{
     [EchatConversationManager disConnect];
 }
 
