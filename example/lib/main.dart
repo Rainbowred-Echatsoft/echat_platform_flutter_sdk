@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
         ),
         ElevatedButton(
           onPressed: () {
-            closeAllChat();
+            closeAllChats();
           },
           child: const Text("关闭所有对话"),
         ),
@@ -269,7 +269,7 @@ class _HomePageState extends State<HomePage> {
   void clearUserInfo() async {
     // 模拟logout
     //1.先关闭所有对话
-    closeAllChat();
+    closeAllChats();
 
     //2.再清理会员信息
     await EChatFlutterSdk.clearUserInfo();
@@ -296,8 +296,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void closeAllChat() async {
-    bool success = await EChatFlutterSdk.closeAllChat();
-    print(success ? "关闭所有成功" : "关闭所有失败");
+  void closeAllChats() async {
+    bool result = await EChatFlutterSdk.closeAllChats();
+    print(result ? "关闭全部对话成功" : "关闭全部对话失败");
+    setState(() {
+      _content = result ? "关闭全部对话成功" : "关闭全部对话失败";
+    });
   }
 }

@@ -48,8 +48,8 @@ FlutterEventSink     eventCountSink;
         [self openBox];
     }else if ([@"closeConnection" isEqualToString:call.method]){
         [self closeConnection];
-    }else if ([@"closeAllChat" isEqualToString:call.method]){
-        [self closeAllChat:result];
+    }else if ([@"closeAllChats" isEqualToString:call.method]){
+        [self closeAllChats:result];
     }else{
         result(FlutterMethodNotImplemented);
     }
@@ -161,7 +161,7 @@ FlutterEventSink     eventCountSink;
     [EchatConversationManager disConnect];
 }
 
-- (void)closeAllChat:(FlutterResult)result{
+- (void)closeAllChats:(FlutterResult)result{
     [EchatConversationManager closeAllConversationSuccess:^{
         result(@(YES));
     } fail:^(NSString * _Nonnull errorMsg) {

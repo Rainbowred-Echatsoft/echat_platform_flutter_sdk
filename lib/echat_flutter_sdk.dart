@@ -103,8 +103,8 @@ class EChatFlutterSdk {
   }
 
   /// 关闭所有对话
-  static Future<bool> closeAllChat() async {
-    return await EChatFlutterSdkPlatform.instance.closeAllChat();
+  static Future<bool> closeAllChats() async {
+    return await EChatFlutterSdkPlatform.instance.closeAllChats();
   }
 }
 

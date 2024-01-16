@@ -82,7 +82,7 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
 
             "closeConnection" -> closeConnection(result)
 
-            "closeAllChat" -> closeAllChat(result)
+            "closeAllChats" -> closeAllChats(result)
 
             else -> {
                 result.notImplemented()
@@ -378,6 +378,27 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                     result.success(true)
                 } else {
                     result.error("closeConnection", msg, null)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "closeConnection", e)
+            result.success(false)
+        }
+    }
+
+    private fun closeAllChats(result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "closeAllChats application is null")
+                result.success(false)
+                return
+            }
+
+            EChatSDK.getInstance().closeAllChats() { flag, msg ->
+                if (flag) {
+                    result.success(true)
+                } else {
+                    result.error("closeAllChats", msg, null)
                 }
             }
         } catch (e: Exception) {

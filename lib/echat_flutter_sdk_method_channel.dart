@@ -120,7 +120,7 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
-  Future<bool> closeAllChat() async {
-    return await methodChannel.invokeMethod('closeAllChat');
+  Future<bool> closeAllChats() async {
+    return await methodChannel.invokeMethod('closeAllChats');
   }
 }

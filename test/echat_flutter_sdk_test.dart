@@ -80,13 +80,13 @@ class MockEchatPlatformFlutterSdkPlatform
   }
 
   @override
-  Future<bool> closeAllChat() {
-    // TODO: implement closeAllChat
+  Future<bool> closeAllChats() {
+    // TODO: implement closeAllChats
     throw UnimplementedError();
   }
 
   @override
-  Future<void> closeConnection() {
+  Future<bool> closeConnection() {
     // TODO: implement closeConnection
     throw UnimplementedError();
   }
