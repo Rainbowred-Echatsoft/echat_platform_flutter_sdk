@@ -1,0 +1,4 @@
+-dontwarn com.echatsoft.**
+-keep class com.echatsoft.** { *; }
+-keep class org.cometd.** { *; }
+-keep class org.eclipse.** { *; }
