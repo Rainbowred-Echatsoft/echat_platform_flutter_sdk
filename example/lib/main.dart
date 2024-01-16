@@ -278,11 +278,9 @@ class _HomePageState extends State<HomePage> {
   /// 测试未读和未读消息数
   void test() {
     EChatFlutterSdk.getUnreadMsgCount((count) {
-      String countString = count;
-      print("未读消息数目: $countString");
-      int sumCount = int.parse(countString);
+      print("未读消息数目: $count");
       setState(() {
-        _unreadCount = sumCount;
+        _unreadCount = count;
       });
     });
   }

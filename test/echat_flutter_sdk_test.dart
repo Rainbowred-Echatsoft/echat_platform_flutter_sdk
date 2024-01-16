@@ -74,7 +74,7 @@ class MockEchatPlatformFlutterSdkPlatform
 
   @override
   Future<void> getUnreadMsgCount(
-      void Function(dynamic count) msgCountCallBack) {
+      void Function(int count) msgCountCallBack) {
     // TODO: implement getUnreadMsgCount
     throw UnimplementedError();
   }

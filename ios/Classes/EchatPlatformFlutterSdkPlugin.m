@@ -171,22 +171,13 @@ FlutterEventSink     eventCountSink;
 
 #pragma mark -evenChannelDelegate
 - (FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)events{
-    if (![arguments isKindOfClass:[NSString class]]){
-        return nil;
+
+    [EchatConversationManager manager].delegate = self;
+    eventCountSink = events;
+    if (eventCountSink){
+        NSInteger count = [EchatConversationManager manager].getAllUnreadCountSum;
+        eventCountSink(@(count));
     }
-    
-    if ([arguments isEqualToString:@"EchatUnreadMsg"]){
-        [EchatConversationManager manager].delegate = self;
-        eventMsgSink = events;
-    }else if ([arguments isEqualToString:@"EchatUnreadCount"]){
-        [EchatConversationManager manager].delegate = self;
-        eventCountSink = events;
-        if (eventCountSink){
-            NSInteger count = [EchatConversationManager manager].getAllUnreadCountSum;
-            eventCountSink([NSString stringWithFormat:@"%ld",(long)count]);
-        }
-    }
-    
     
     return nil;
 }
@@ -208,7 +199,7 @@ FlutterEventSink     eventCountSink;
 
 - (void)unReadMessagesSumCountChanged:(NSInteger)count{
     if (eventCountSink){
-        eventCountSink([NSString stringWithFormat:@"%ld",count]);
+        eventCountSink(@(count));
     }
 }
 

@@ -1,22 +1,28 @@
 package com.echatsoft.echatsdk.echat_platform_flutter_sdk
 
 import android.app.Activity
+import android.content.Context
+import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import androidx.collection.ArrayMap
+import com.echatsoft.echatsdk.broadcast.EChatLocalMessageReceiver
 import com.echatsoft.echatsdk.core.EChatSDK
 import com.echatsoft.echatsdk.core.ICore
 import com.echatsoft.echatsdk.core.OnePaces
 import com.echatsoft.echatsdk.core.model.ChatParamConfig
 import com.echatsoft.echatsdk.core.model.ExtraParamConfig
+import com.echatsoft.echatsdk.core.model.SDKMessage
 import com.echatsoft.echatsdk.core.model.UserInfo
 import com.echatsoft.echatsdk.core.model.VisEvt
 import com.echatsoft.echatsdk.core.utils.GsonUtils
 import com.echatsoft.echatsdk.core.utils.LogUtils
+import com.echatsoft.echatsdk.core.utils.ThreadUtils
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -24,7 +30,8 @@ import io.flutter.plugin.common.MethodChannel.Result
 import java.lang.reflect.Modifier
 
 /** EchatPlatformFlutterSdkPlugin */
-class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
+    EventChannel.StreamHandler, EChatLocalMessageReceiver() {
     companion object {
         const val TAG = "EChat_Flutter"
     }
@@ -37,10 +44,16 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
+    private lateinit var unreadChannel: EventChannel
+    private var unreadEventSink: EventChannel.EventSink? = null
+
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "echat_platform_flutter_sdk")
         channel.setMethodCallHandler(this)
+
+        unreadChannel = EventChannel(flutterPluginBinding.binaryMessenger, "echat_count_channel")
+        unreadChannel.setStreamHandler(this)
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
@@ -161,6 +174,16 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                 return
             }
             OnePaces.init(mActivity?.application)
+
+            // 隐私协议通过
+            // 注册未读消息广播接收器
+            mActivity?.registerReceiver(
+                this,
+                IntentFilter().apply {
+                    addAction("com.echatsoft.echatsdk.action.SDK_UNREAD_CHANGE")
+                    addAction("com.echatsoft.echatsdk.action.SDK_LOCAL_MSG_NEW_MSG")
+                }
+            )
             result.success(true)
         } catch (e: Exception) {
             Log.e(TAG, "initSDK", e)
@@ -424,7 +447,12 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
     }
 
     override fun onDetachedFromActivity() {
-        mActivity == null
+        try {
+            mActivity?.unregisterReceiver(this)
+        } catch (e: Exception) {
+            Log.e(TAG, "unregisterReceiver error", e)
+        }
+        mActivity = null
     }
 
     private fun objectToMap(any: Any): Map<String, Any> {
@@ -440,5 +468,39 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             }
         }
         return membersMap
+    }
+
+    // EventChannel.StreamHandler
+    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+        unreadEventSink = events
+        ThreadUtils.executeBySingle(object : ThreadUtils.SimpleTask<Int>() {
+            override fun doInBackground(): Int {
+                return EChatSDK.getInstance().allUnreadCount
+            }
+
+            override fun onSuccess(result: Int?) {
+                unreadEventSink?.success(result ?: 0)
+            }
+        })
+    }
+    // EventChannel.StreamHandler
+    override fun onCancel(arguments: Any?) {
+        unreadEventSink = null
+    }
+
+    override fun unreadCountChange(context: Context?, unreadCount: Int, companyId: Int, tm: Long) {
+        ThreadUtils.executeBySingle(object : ThreadUtils.SimpleTask<Int>() {
+            override fun doInBackground(): Int {
+                return EChatSDK.getInstance().allUnreadCount
+            }
+
+            override fun onSuccess(result: Int?) {
+                unreadEventSink?.success(result ?: 0)
+            }
+        })
+    }
+
+    override fun receiveNewMsg(context: Context?, message: SDKMessage?) {
+        // nothing
     }
 }

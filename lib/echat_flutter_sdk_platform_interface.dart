@@ -83,7 +83,7 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
   }
 
   Future<void> getUnreadMsgCount(
-      void Function(dynamic count) msgCountCallBack) {
+      void Function(int count) msgCountCallBack) {
     throw UnimplementedError('getUnreadMsgCount() has not been implemented.');
   }
 

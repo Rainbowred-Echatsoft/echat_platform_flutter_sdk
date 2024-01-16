@@ -104,10 +104,13 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
 
   @override
   Future<void> getUnreadMsgCount(
-      void Function(dynamic count) msgCountCallBack) async {
-    countChannel
-        .receiveBroadcastStream('EchatUnreadCount')
-        .listen(msgCountCallBack);
+      void Function(int count) msgCountCallBack) async {
+    countChannel.receiveBroadcastStream().listen(
+      (data) {
+        msgCountCallBack(data);
+      },
+      cancelOnError: false,
+    );
   }
 
   @override

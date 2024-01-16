@@ -93,7 +93,7 @@ class EChatFlutterSdk {
 
   /// 获取消息总数
   static Future<void> getUnreadMsgCount(
-      void Function(dynamic count) msgCountCallBack) {
+      void Function(int count) msgCountCallBack) {
     return EChatFlutterSdkPlatform.instance.getUnreadMsgCount(msgCountCallBack);
   }
 
