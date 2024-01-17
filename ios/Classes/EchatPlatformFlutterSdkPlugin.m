@@ -16,8 +16,6 @@ FlutterEventSink     eventCountSink;
 @implementation EchatPlatformFlutterSdkPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     
-    [EchatSDK performSelector:@selector(setDebug:) withObject:@(YES)];
-    
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:@"echat_platform_flutter_sdk"
                                      binaryMessenger:[registrar messenger]];
@@ -32,7 +30,9 @@ FlutterEventSink     eventCountSink;
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-    if([@"setConfig" isEqualToString:call.method]){
+    if ([@"setDebug" isEqualToString:call.method]){
+        [self setDebug:call.arguments];
+    }else if([@"setConfig" isEqualToString:call.method]){
         [self setConfig:call.arguments];
     }else if ([@"init" isEqualToString:call.method]){
         [self initSDK];
@@ -57,6 +57,16 @@ FlutterEventSink     eventCountSink;
 
 
 #pragma mark -- private methods
+
+- (void)setDebug:(id)value{
+    if (![value isKindOfClass:[NSDictionary class]]){
+        NSLog(@"setConfig value's type error");
+        return;
+    }
+    [EchatSDK share];
+    BOOL shouldDebug = [value[@"debug"] boolValue];
+    [EchatSDK performSelector:@selector(setDebug:) withObject:@(shouldDebug)];
+}
 
 //SDK设置
 -(void)setConfig:(id)value{
