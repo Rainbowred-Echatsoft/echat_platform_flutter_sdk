@@ -404,7 +404,7 @@ class EchatUserInfo {
     if (uid != null) {
       userInfo.uid = uid;
     }
-    userInfo.vip = data["vip"] as int ?? 1;
+    userInfo.vip = data["vip"] as int;
     userInfo.grade = data["grade"] as String?;
     userInfo.category = data["category"] as String?;
     userInfo.name = data["name"] as String?;

@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'echat_flutter_sdk_method_channel.dart';
