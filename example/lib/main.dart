@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
       // 用户点击同意后 调用EChatFlutterSdk.init();
       _showPrivacyPolicyDialog();
     }
-    test();
+    registerUnreadCount();
   }
 
   /// 显示隐私协议弹窗
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   /// 测试未读和未读消息数
-  void test() {
+  void registerUnreadCount() {
     EChatFlutterSdk.getUnreadMsgCount((count) {
       print("未读消息数目: $count");
       setState(() {
