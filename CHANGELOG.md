@@ -1,3 +1,8 @@
+## 1.0.2
+
+* Android SDK版本升级到1.3.4.2
+* flutter SDK层面新增setPushInfo接口
+
 ## 1.0.1
 
 * Android SDK版本升级到1.3.4.0

@@ -91,6 +91,12 @@ class MockEchatPlatformFlutterSdkPlatform
     throw UnimplementedError();
   }
 
+  @override
+  Future<bool> setPushInfo({required String pushInfo}) {
+    // TODO: implement setPushInfo
+    throw UnimplementedError();
+  }
+
 
 }
 

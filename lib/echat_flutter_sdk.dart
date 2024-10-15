@@ -76,6 +76,10 @@ class EChatFlutterSdk {
     );
   }
 
+  static Future<bool> setPushInfo({required String pushInfo}) {
+    return EChatFlutterSdkPlatform.instance.setPushInfo(pushInfo: pushInfo);
+  }
+
   /// 设置会员
   static Future<void> setUserInfo(EchatUserInfo userInfo) {
     return EChatFlutterSdkPlatform.instance.setUserInfo(userInfo);
