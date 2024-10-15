@@ -22,9 +22,6 @@ FlutterEventSink     eventCountSink;
     EchatPlatformFlutterSdkPlugin* instance = [[EchatPlatformFlutterSdkPlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
     
-//    FlutterEventChannel * unreadMsgChannel = [FlutterEventChannel eventChannelWithName:@"echat_message_channel" binaryMessenger:[registrar messenger]];
-//    [unreadMsgChannel setStreamHandler:instance];
-    
     FlutterEventChannel * unreadCountChannel = [FlutterEventChannel eventChannelWithName:@"echat_count_channel" binaryMessenger:[registrar messenger]];
     [unreadCountChannel setStreamHandler:instance];
 }
@@ -50,6 +47,8 @@ FlutterEventSink     eventCountSink;
         [self closeConnection];
     }else if ([@"closeAllChats" isEqualToString:call.method]){
         [self closeAllChats:result];
+    }else if ([@"setPushInfo" isEqualToString:call.method]){
+        [self setPushInfo:call.arguments];
     }else{
         result(FlutterMethodNotImplemented);
     }
@@ -104,6 +103,33 @@ FlutterEventSink     eventCountSink;
     self.serverToken = serverToken;
     self.companyId = companyId;
     self.serverUrl = serverUrl;
+}
+
+- (NSData *)echat_convertHexStringToData:(NSString *)hexString {
+    NSMutableData *data = [[NSMutableData alloc] init];
+    int len = (int)[hexString length];
+    
+    // 解析字符串的每两个字符为一个字节
+    for (int i = 0; i < len; i += 2) {
+        NSString *byteString = [hexString substringWithRange:NSMakeRange(i, 2)];
+        unsigned int byte;
+        [[NSScanner scannerWithString:byteString] scanHexInt:&byte];
+        [data appendBytes:&byte length:1];
+    }
+    
+    return data;
+}
+
+- (void)setPushInfo:(id)value{
+    if(![value isKindOfClass:[NSDictionary class]]){
+        return;
+    }
+    NSString * pushInfo = [value objectForKey:@"pushInfo"];
+    NSString * result = [pushInfo stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (result != nil && result.length > 1){
+        NSData * data = [self echat_convertHexStringToData:result];
+        [EchatSDK echat_registPushInfo:data];
+    }
 }
 
 //初始化SDK

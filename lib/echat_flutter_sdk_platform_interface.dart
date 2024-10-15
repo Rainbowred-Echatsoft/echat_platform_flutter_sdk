@@ -67,6 +67,10 @@ abstract class EChatFlutterSdkPlatform extends PlatformInterface {
     throw UnimplementedError('openBox() has not been implemented.');
   }
 
+  Future<bool> setPushInfo({required String pushInfo}){
+    throw UnimplementedError('setPushInfo() has not been implemented.');
+  }
+
   Future<void> setUserInfo(EchatUserInfo userInfo) {
     throw UnimplementedError('setUserInfo() has not been implemented.');
   }
