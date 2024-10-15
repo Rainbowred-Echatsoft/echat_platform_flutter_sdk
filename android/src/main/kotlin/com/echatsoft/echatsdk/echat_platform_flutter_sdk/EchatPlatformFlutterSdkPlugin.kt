@@ -81,6 +81,10 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
                 openBox(call, result)
             }
 
+            "setPushInfo" ->{
+                setPushInfo(call, result)
+            }
+
             "setUserInfo" -> {
                 setUserInfo(call, result)
             }
@@ -285,6 +289,22 @@ class EchatPlatformFlutterSdkPlugin : FlutterPlugin, MethodCallHandler, Activity
             EChatSDK.getInstance().openBox(mActivity!!, Bundle().apply {
                 putString("echatTag", echatTag)
             })
+            result.success(true)
+        } catch (e: Exception) {
+            Log.e(TAG, "openBox", e)
+            result.success(false)
+        }
+    }
+
+    private fun setPushInfo(call: MethodCall, result: Result) {
+        try {
+            if (mActivity == null) {
+                Log.e(TAG, "setPushInfo, application is null")
+                result.success(false)
+                return
+            }
+            val pushInfo = call.argument<String>("pushInfo")
+            EChatSDK.getInstance().setPushInfo(pushInfo)
             result.success(true)
         } catch (e: Exception) {
             Log.e(TAG, "openBox", e)

@@ -85,6 +85,14 @@ class MethodChannelEchatFlutterSdk extends EChatFlutterSdkPlatform {
   }
 
   @override
+  Future<bool> setPushInfo({required String pushInfo}) async {
+    Map<String, dynamic> map = {
+      "pushInfo": pushInfo,
+    };
+    return await methodChannel.invokeMethod<bool>('setPushInfo', map) ?? false;
+  }
+
+  @override
   Future<void> setUserInfo(EchatUserInfo userInfo) {
     return methodChannel.invokeMethod<void>('setUserInfo', userInfo.toMap());
   }

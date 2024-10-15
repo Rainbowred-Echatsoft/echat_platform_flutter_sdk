@@ -152,6 +152,10 @@ class _HomePageState extends State<HomePage> {
     if (isAgreePrivacy) {
       // 已经同意隐私协议
       EChatFlutterSdk.init();
+      // 已经同意隐私协议 才调用pushInfo接口
+      var result = await EChatFlutterSdk.setPushInfo(
+          pushInfo: 'XXXXXXXXXXXXXXXXXXXXXXXXX');
+      print(result ? "设置pushInfo成功" : "设置pushInfo失败");
     } else {
       // 未同意隐私协议
       // 弹出一个dialog窗口
