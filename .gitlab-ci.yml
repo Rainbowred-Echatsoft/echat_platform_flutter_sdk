@@ -1,0 +1,4 @@
+include:
+  - project: devops/ci-template
+    ref: mobile
+    file: mobile-flutter-sdk/echat-platform-flutter-sdk-gitlab-ci.yml

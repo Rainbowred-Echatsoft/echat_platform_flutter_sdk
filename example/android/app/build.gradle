@@ -4,6 +4,16 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+static def gitRevision() {
+    return "git rev-parse --short HEAD".execute().text.trim()
+}
+
+static def getGitBranchName() {
+    def branchName = "unknown"
+    branchName = 'git rev-parse --abbrev-ref HEAD'.execute().text.replaceAll("/", "-").trim()
+    return branchName
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -20,6 +30,11 @@ if (flutterVersionCode == null) {
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
     flutterVersionName = '1.0'
+}
+
+def dateFormat = localProperties.getProperty("dateFormat") ?: "yyyy-MM-dd"
+def releaseTime = {
+    return new Date().format(dateFormat)
 }
 
 android {
@@ -60,6 +75,24 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                output.outputFileName = "echat-platform-flutter-sdk-example-${variant.versionName}-${releaseTime()}-${getGitBranchName()}-${gitRevision()}-${variant.name}.apk"
+            }
+        }
+
+        variant.assembleProvider.configure {
+            // 获得Android下的APK输出目录 ${buildDir}/outputs/apk/${variant.name}
+            it.doLast {
+                variant.outputs.each { output ->
+                    println("APK Output -> ${output.outputFile}")
+                }
+            }
         }
     }
 }
